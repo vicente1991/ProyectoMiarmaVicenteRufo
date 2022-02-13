@@ -23,15 +23,15 @@ public class FileController {
     @PostMapping("/upload")
     public ResponseEntity<?> upload(@RequestPart("file") MultipartFile file) throws Exception {
 
-        String name = storageService.storeAvatar(file);
+        String nombre = storageService.storeAvatar(file);
 
         String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/download/")
-                .path(name)
+                .path(nombre)
                 .toUriString();
 
         FileResponse response = FileResponse.builder()
-                .name(name)
+                .name(nombre)
                 .size(file.getSize())
                 .type(file.getContentType())
                 .uri(uri)
@@ -44,8 +44,6 @@ public class FileController {
     @GetMapping("/download/{filename:.+}")
     public ResponseEntity<Resource> getFile(@PathVariable String filename) {
         MediaTypeUrlResource resource = (MediaTypeUrlResource) storageService.loadAsResource(filename);
-
-
         return ResponseEntity.status(HttpStatus.OK)
                 .header("content-type", resource.getType())
                 .body(resource);

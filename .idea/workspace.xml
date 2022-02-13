@@ -5,32 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="21d9ab5d-388d-4836-ba3a-df622ed8469d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Miarma/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Miarma/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/ProyectoMiarmaVicenteRufo.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/security/AuthenticationController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/security/PasswordEncoderConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/security/SecurityConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/security/dto/JwtUsuarioResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/security/dto/LoginDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/security/jwt/JwtAccessDeniedHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/security/jwt/JwtAuthenticationEntryPoint.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/security/jwt/JwtAuthorizationFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/security/jwt/JwtProvider.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/controller/UserController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/dto/CreateUserDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/dto/GetUserDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/dto/UserDtoConverter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/model/UserEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/model/UserRoles.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/repos/UserEntityRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/services/UserEntityService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Miarma/db/basededatos.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/Miarma/db/basededatos.mv.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
