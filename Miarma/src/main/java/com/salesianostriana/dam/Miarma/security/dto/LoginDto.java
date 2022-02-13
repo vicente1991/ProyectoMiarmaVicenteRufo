@@ -2,8 +2,10 @@ package com.salesianostriana.dam.Miarma.security.dto;
 
 import lombok.*;
 
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class LoginDto {
 

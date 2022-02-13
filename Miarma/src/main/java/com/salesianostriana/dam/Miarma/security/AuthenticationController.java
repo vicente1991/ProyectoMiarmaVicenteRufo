@@ -3,6 +3,7 @@ package com.salesianostriana.dam.Miarma.security;
 import com.salesianostriana.dam.Miarma.security.dto.JwtUsuarioResponse;
 import com.salesianostriana.dam.Miarma.security.dto.LoginDto;
 import com.salesianostriana.dam.Miarma.security.jwt.JwtProvider;
+import com.salesianostriana.dam.Miarma.users.dto.GetUserDto;
 import com.salesianostriana.dam.Miarma.users.model.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class AuthenticationController {
     private final JwtProvider jwtProvider;
 
     @PostMapping("/auth/login")
-    public ResponseEntity<?> login(@RequestBody LoginDto loginDto){
+    public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -39,11 +40,12 @@ public class AuthenticationController {
 
         UserEntity userEntity = (UserEntity) authentication.getPrincipal();
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(convertUserToJwtUsuarioResponse(userEntity,jwt));
+        return ResponseEntity.status(HttpStatus.CREATED).body(convertUserToJwtUsuarioResponse(userEntity, jwt));
     }
 
-    private JwtUsuarioResponse convertUserToJwtUsuarioResponse(UserEntity user, String jwt){
+    private JwtUsuarioResponse convertUserToJwtUsuarioResponse(UserEntity user, String jwt) {
         return JwtUsuarioResponse.builder()
+                .nick(user.getNick())
                 .nombre(user.getNombre())
                 .email(user.getEmail())
                 .avatar(user.getAvatar())
@@ -51,10 +53,23 @@ public class AuthenticationController {
                 .token(jwt)
                 .build();
     }
-
-    @GetMapping("/me")
-    public ResponseEntity<?> perfil(@AuthenticationPrincipal UserEntity user){
-        return ResponseEntity.ok(convertUserToJwtUsuarioResponse(user,null));
+    private GetUserDto convertUserToGetUserDto(UserEntity user, String jwt) {
+        return GetUserDto.builder()
+                .id(user.getId())
+                .apellidos(user.getApellidos())
+                .fechaNacimiento(user.getFechaNacimiento())
+                .nick(user.getNick())
+                .nombre(user.getNombre())
+                .email(user.getEmail())
+                .avatar(user.getAvatar())
+                .userRoles(user.getUserRoles().name())
+                .build();
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<?> perfil(@AuthenticationPrincipal UserEntity user) {
+        return ResponseEntity.ok(convertUserToGetUserDto(user, null));
+    }
 }
+
+

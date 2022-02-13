@@ -1,7 +1,7 @@
 package com.salesianostriana.dam.Miarma.users.repos;
 
-import com.salesianostriana.dam.ProyectoRealEstateVicenteRufo.users.model.UserEntity;
-import com.salesianostriana.dam.ProyectoRealEstateVicenteRufo.users.model.UserRoles;
+import com.salesianostriana.dam.Miarma.users.model.UserEntity;
+import com.salesianostriana.dam.Miarma.users.model.UserRoles;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

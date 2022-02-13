@@ -1,21 +1,21 @@
 package com.salesianostriana.dam.Miarma.users.services;
 
-import com.salesianostriana.dam.ProyectoRealEstateVicenteRufo.model.Inmobiliaria;
-import com.salesianostriana.dam.ProyectoRealEstateVicenteRufo.services.InmobiliariaService;
-import com.salesianostriana.dam.ProyectoRealEstateVicenteRufo.services.base.BaseService;
-import com.salesianostriana.dam.ProyectoRealEstateVicenteRufo.users.dto.CreateUserDto;
-import com.salesianostriana.dam.ProyectoRealEstateVicenteRufo.users.model.UserEntity;
-import com.salesianostriana.dam.ProyectoRealEstateVicenteRufo.users.model.UserRoles;
-import com.salesianostriana.dam.ProyectoRealEstateVicenteRufo.users.repos.UserEntityRepository;
+import com.salesianostriana.dam.Miarma.services.StorageService;
+import com.salesianostriana.dam.Miarma.services.base.BaseService;
+import com.salesianostriana.dam.Miarma.users.dto.CreateUserDto;
+import com.salesianostriana.dam.Miarma.users.model.UserEntity;
+import com.salesianostriana.dam.Miarma.users.model.UserRoles;
+import com.salesianostriana.dam.Miarma.users.repos.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service("userDetailService")
@@ -23,7 +23,8 @@ import java.util.UUID;
 public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityRepository> implements UserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
-    private final InmobiliariaService inmobiliariaService;
+    private final StorageService storageService;
+
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -37,17 +38,26 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
     }
 
 
-    public UserEntity saveAdmin(CreateUserDto userDto){
+
+    public UserEntity saveUser(CreateUserDto userDto, MultipartFile file) throws Exception {
+
+        String filename = storageService.storeAvatar(file);
+
+        String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/download/")
+                .path(filename)
+                .toUriString();
+
         if (userDto.getPassword().equalsIgnoreCase(userDto.getPassword2())){
             UserEntity userEntity = UserEntity.builder()
+                    .nick(userDto.getNick())
                     .nombre(userDto.getNombre())
                     .apellidos(userDto.getApellidos())
-                    .direccion(userDto.getDireccion())
                     .email(userDto.getEmail())
-                    .telefono(userDto.getTelefono())
-                    .avatar(userDto.getAvatar())
+                    .fechaNacimiento(userDto.getFechaNacimiento())
+                    .avatar(uri)
                     .password(passwordEncoder.encode(userDto.getPassword()))
-                    .userRoles(UserRoles.ADMIN)
+                    .userRoles(userDto.getRol().toUpperCase().equalsIgnoreCase(UserRoles.PUBLICO.name()) ? UserRoles.PUBLICO:UserRoles.PRIVADO)
                     .build();
             return save(userEntity);
         }
@@ -55,43 +65,5 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
             return null;
         }
     }
-    public UserEntity savePropietario(CreateUserDto userDto){
-        if (userDto.getPassword().equalsIgnoreCase(userDto.getPassword2())){
-            UserEntity userEntity = UserEntity.builder()
-                    .nombre(userDto.getNombre())
-                    .apellidos(userDto.getApellidos())
-                    .direccion(userDto.getDireccion())
-                    .email(userDto.getEmail())
-                    .telefono(userDto.getTelefono())
-                    .avatar(userDto.getAvatar())
-                    .password(passwordEncoder.encode(userDto.getPassword()))
-                    .userRoles(UserRoles.PROPIETARIO)
-                    .build();
-            return save(userEntity);
-        }
-        else {
-            return null;
-        }
-    }
-    public UserEntity saveGestor(CreateUserDto userDto){
-        Optional<Inmobiliaria> inmobiliaria = inmobiliariaService.findById(userDto.getIdInmobiliaria());
-        if (userDto.getPassword().equalsIgnoreCase(userDto.getPassword2()) && inmobiliaria.isPresent()){
-            UserEntity userEntity = UserEntity.builder()
-                    .nombre(userDto.getNombre())
-                    .apellidos(userDto.getApellidos())
-                    .direccion(userDto.getDireccion())
-                    .email(userDto.getEmail())
-                    .telefono(userDto.getTelefono())
-                    .avatar(userDto.getAvatar())
-                    .password(passwordEncoder.encode(userDto.getPassword()))
-                    .userRoles(UserRoles.GESTOR)
-                    .inmobiliaria(inmobiliaria.get())
-                    .build();
-            userEntity.addToInmobiliaria(inmobiliaria.get());
-            return save(userEntity);
-        }
-        else {
-            return null;
-        }
-    }
+
 }

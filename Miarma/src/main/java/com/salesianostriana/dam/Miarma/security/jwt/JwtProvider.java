@@ -1,10 +1,10 @@
 package com.salesianostriana.dam.Miarma.security.jwt;
 
-import com.salesianostriana.dam.ProyectoRealEstateVicenteRufo.users.model.UserEntity;
+import com.salesianostriana.dam.Miarma.users.model.UserEntity;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.java.Log;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ public class JwtProvider {
     public static final String TOKEN_HEADER = "Authorization";
     public static final String TOKEN_PREFIX = "Bearer";
 
-    @Value("${jwt.secret:elsecretoibericoeselquemasmegusta}")
+    @Value("${jwt.secret:elsecretoibericoeselmejordetodos}")
     private String jwtSecret;
 
     @Value("${jwt.duration:86400}")
@@ -56,7 +56,7 @@ public class JwtProvider {
         try {
             parser.parseClaimsJws(token);
             return true;
-        } catch (SignatureException | MalformedJwtException| ExpiredJwtException| UnsupportedJwtException | IllegalArgumentException ex ) {
+        } catch (SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException ex ) {
             log.info("Error con el token: "+ ex.getMessage());
         }
         return false;

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="21d9ab5d-388d-4836-ba3a-df622ed8469d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Miarma/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Miarma/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/ProyectoMiarmaVicenteRufo.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/security/AuthenticationController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/security/PasswordEncoderConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/security/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/security/dto/JwtUsuarioResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/security/dto/LoginDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/security/jwt/JwtAccessDeniedHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/security/jwt/JwtAuthenticationEntryPoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/security/jwt/JwtAuthorizationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/security/jwt/JwtProvider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/controller/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/dto/CreateUserDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/dto/GetUserDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/dto/UserDtoConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/model/UserEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/model/UserRoles.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/repos/UserEntityRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/services/UserEntityService.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="253IZ2L3cfQxi5oFX4YqabjvRFG" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\usuario\Desktop\ProyectoMiarmaVicenteRufo\Miarma\src\main\java\com\salesianostriana\dam\Miarma" />
+      <recent name="C:\Users\usuario\Desktop\ProyectoMiarmaVicenteRufo\Miarma" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\usuario\Desktop\ProyectoMiarmaVicenteRufo\Miarma" />
+      <recent name="C:\Users\usuario\Desktop\ProyectoMiarmaVicenteRufo\Miarma\src\main\java\com\salesianostriana\dam\Miarma\upload" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="21d9ab5d-388d-4836-ba3a-df622ed8469d" name="Changes" comment="" />
+      <created>1644749394573</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1644749394573</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>

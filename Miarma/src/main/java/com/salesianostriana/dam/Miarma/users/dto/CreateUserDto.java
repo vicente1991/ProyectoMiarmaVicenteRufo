@@ -2,18 +2,22 @@ package com.salesianostriana.dam.Miarma.users.dto;
 
 import lombok.*;
 
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+import java.util.Date;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class CreateUserDto {
 
     private String nombre;
     private String apellidos;
-    private String direccion;
+    private String nick;
     private String email;
-    private String telefono;
+    private Date fechaNacimiento;
+    private String rol;
     private String avatar;
     private String password;
     private String password2;
-    private Long idInmobiliaria;
 }

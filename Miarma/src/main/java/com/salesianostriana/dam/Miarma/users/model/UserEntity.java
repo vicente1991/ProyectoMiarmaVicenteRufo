@@ -1,22 +1,20 @@
 package com.salesianostriana.dam.Miarma.users.model;
 
-import com.salesianostriana.dam.ProyectoRealEstateVicenteRufo.model.Inmobiliaria;
-import com.salesianostriana.dam.ProyectoRealEstateVicenteRufo.model.Vivienda;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
-import org.hibernate.annotations.Parameter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,8 +33,8 @@ public class UserEntity implements UserDetails {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator",
             parameters = {
-                    @Parameter(name = "uuid_gen_strategy_class",
-                               value = "org.hibernate.id.uuid.CustomVersionOneStrategy"
+                    @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class",
+                            value = "org.hibernate.id.uuid.CustomVersionOneStrategy"
                     )
             }
     )
@@ -46,13 +44,14 @@ public class UserEntity implements UserDetails {
 
     private String apellidos;
 
-    private String direccion;
+    private String nick;
 
     @NaturalId
     @Column(unique = true,updatable = false)
     private String email;
 
-    private String telefono;
+    @DateTimeFormat
+    private Date fechaNacimiento;
 
     private String avatar;
 
@@ -62,17 +61,10 @@ public class UserEntity implements UserDetails {
     @Column(name = "rol")
     private UserRoles userRoles;
 
-    @OneToMany(mappedBy = "propietario", fetch = FetchType.EAGER)
-    private List<Vivienda> viviendas= new ArrayList<>();
 
-    @ManyToOne
-    private Inmobiliaria inmobiliaria;
 
     //Helpers
-    public void addToInmobiliaria(Inmobiliaria i){
-        inmobiliaria = i;
-        i.getGestores().add(this);
-    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

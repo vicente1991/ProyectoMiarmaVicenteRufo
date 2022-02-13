@@ -1,7 +1,8 @@
 package com.salesianostriana.dam.Miarma.security.jwt;
 
-import com.salesianostriana.dam.ProyectoRealEstateVicenteRufo.users.model.UserEntity;
-import com.salesianostriana.dam.ProyectoRealEstateVicenteRufo.users.services.UserEntityService;
+
+import com.salesianostriana.dam.Miarma.users.model.UserEntity;
+import com.salesianostriana.dam.Miarma.users.services.UserEntityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

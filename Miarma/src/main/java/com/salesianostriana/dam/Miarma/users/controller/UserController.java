@@ -1,52 +1,36 @@
 package com.salesianostriana.dam.Miarma.users.controller;
 
-import com.salesianostriana.dam.ProyectoRealEstateVicenteRufo.users.dto.CreateUserDto;
-import com.salesianostriana.dam.ProyectoRealEstateVicenteRufo.users.dto.GetUserDto;
-import com.salesianostriana.dam.ProyectoRealEstateVicenteRufo.users.dto.UserDtoConverter;
-import com.salesianostriana.dam.ProyectoRealEstateVicenteRufo.users.model.UserEntity;
-import com.salesianostriana.dam.ProyectoRealEstateVicenteRufo.users.services.UserEntityService;
+import com.salesianostriana.dam.Miarma.users.dto.CreateUserDto;
+import com.salesianostriana.dam.Miarma.users.dto.GetUserDto;
+import com.salesianostriana.dam.Miarma.users.dto.UserDtoConverter;
+import com.salesianostriana.dam.Miarma.users.model.UserEntity;
+import com.salesianostriana.dam.Miarma.users.services.UserEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth/register")
+@RequestMapping("/")
 public class UserController {
 
     private final UserEntityService userEntityService;
     private final UserDtoConverter userDtoConverter;
 
-    @PostMapping("/user")
-    public ResponseEntity<GetUserDto> nuevoPropietario(@RequestBody CreateUserDto createUserDto){
-        UserEntity propietario = userEntityService.savePropietario(createUserDto);
-        if (propietario == null){
+    @PostMapping("auth/register")
+    public ResponseEntity<GetUserDto> nuevoUser(@RequestPart("user") CreateUserDto createUserDto, @RequestPart("file")MultipartFile file) throws Exception {
+        UserEntity usuario = userEntityService.saveUser(createUserDto, file);
+        if (usuario == null){
             return ResponseEntity.badRequest().build();
         }else{
-            return ResponseEntity.status(HttpStatus.CREATED).body(userDtoConverter.UserEntityToGetUserDto(propietario));
+            return ResponseEntity.status(HttpStatus.CREATED).body(userDtoConverter.UserEntityToGetUserDto(usuario));
         }
     }
-    @PostMapping("/gestor")
-    public ResponseEntity<GetUserDto> nuevoGestor(@RequestBody CreateUserDto createUserDto){
-        UserEntity gestor = userEntityService.saveGestor(createUserDto);
-        if (gestor == null){
-            return ResponseEntity.badRequest().build();
-        }else {
-            return ResponseEntity.status(HttpStatus.CREATED).body(userDtoConverter.UserEntityToGetUserDto(gestor));
-        }
-    }
-    @PostMapping("/admin")
-    public ResponseEntity<GetUserDto> nuevoAdmin(@RequestBody CreateUserDto createUserDto){
-        UserEntity admin = userEntityService.saveAdmin(createUserDto);
-        if (admin == null){
-            return ResponseEntity.badRequest().build();
-        }else {
-            return ResponseEntity.status(HttpStatus.CREATED).body(userDtoConverter.UserEntityToGetUserDto(admin));
-        }
-    }
+
 
 }
