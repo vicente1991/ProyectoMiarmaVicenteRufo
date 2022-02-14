@@ -9,7 +9,7 @@ import java.util.Date;
 @Entity
 @NoArgsConstructor @AllArgsConstructor
 @Builder
-@Getter  @Setter
+@Getter @Setter
 public class Publicacion {
 
     @Id

@@ -120,6 +120,20 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Publicacion",
+			"item": [
+				{
+					"name": "Nueva publicacion",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"variable": [
