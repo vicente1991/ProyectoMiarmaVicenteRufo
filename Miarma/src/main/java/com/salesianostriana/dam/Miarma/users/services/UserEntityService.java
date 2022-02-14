@@ -30,9 +30,6 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return this.repository.findFirstByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email + " no encontrado"));
     }
-    public List<UserEntity> loadUserByRole(UserRoles userRoles) throws UsernameNotFoundException{
-        return this.repository.findByUserRoles(userRoles).orElseThrow(() -> new UsernameNotFoundException(userRoles + " no encontrado"));
-    }
     public UserEntity loadUserById(UUID uuid) throws UsernameNotFoundException{
         return this.repository.findById(uuid).orElseThrow(() -> new UsernameNotFoundException(uuid + " no encontrado"));
     }
@@ -57,7 +54,6 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
                     .fechaNacimiento(userDto.getFechaNacimiento())
                     .avatar(uri)
                     .password(passwordEncoder.encode(userDto.getPassword()))
-                    .userRoles(userDto.getRol().toUpperCase().equalsIgnoreCase(UserRoles.PUBLICO.name()) ? UserRoles.PUBLICO:UserRoles.PRIVADO)
                     .build();
             return save(userEntity);
         }

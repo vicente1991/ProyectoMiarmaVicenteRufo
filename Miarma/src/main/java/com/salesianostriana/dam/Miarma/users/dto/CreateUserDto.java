@@ -16,7 +16,6 @@ public class CreateUserDto {
     private String nick;
     private String email;
     private Date fechaNacimiento;
-    private String rol;
     private String avatar;
     private String password;
     private String password2;

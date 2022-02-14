@@ -49,7 +49,6 @@ public class AuthenticationController {
                 .nombre(user.getNombre())
                 .email(user.getEmail())
                 .avatar(user.getAvatar())
-                .role(user.getUserRoles().name())
                 .token(jwt)
                 .build();
     }
@@ -62,7 +61,6 @@ public class AuthenticationController {
                 .nombre(user.getNombre())
                 .email(user.getEmail())
                 .avatar(user.getAvatar())
-                .userRoles(user.getUserRoles().name())
                 .build();
     }
 

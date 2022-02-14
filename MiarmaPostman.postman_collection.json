@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "17087493-506c-4577-b57b-da90ebbd9485",
+		"_postman_id": "17922116-fa8b-4acd-b9c7-a225df83fe3a",
 		"name": "MiarmaPostman",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -18,13 +18,15 @@
 							"formdata": [
 								{
 									"key": "user",
-									"value": "{\n    \"nombre\": \"Vicente\",\n    \"apellidos\": \"Rufo Bru\",\n    \"nick\": \"V\",\n    \"email\": \"blabla@mail.com\",\n    \"fechaNacimiento\": \"1991-02-26\",\n    \"avatar\":\"\",\n    \"rol\": \"publico\",\n    \"password\": \"123\",\n    \"password2\": \"123\"\n}",
+									"value": "{\n    \"nombre\": \"Vicente\",\n    \"apellidos\": \"Rufo Bru\",\n    \"nick\": \"V\",\n    \"email\": \"blabla@mail.com\",\n    \"fechaNacimiento\": \"1991-02-26\",\n    \"avatar\":\"\",\n    \"password\": \"123\",\n    \"password2\": \"123\"\n}",
+									"contentType": "application/json",
 									"type": "text"
 								},
 								{
 									"key": "file",
+									"contentType": "multipart/form-data",
 									"type": "file",
-									"src": "/C:/Users/usuario/Desktop/Ubeda.jpg"
+									"src": []
 								}
 							],
 							"options": {
@@ -118,6 +120,12 @@
 					"response": []
 				}
 			]
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
 		}
 	]
 }

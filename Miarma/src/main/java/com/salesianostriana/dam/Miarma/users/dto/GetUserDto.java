@@ -19,5 +19,4 @@ public class GetUserDto {
     private Date fechaNacimiento;
     private String email;
     private String avatar;
-    private String userRoles;
 }
