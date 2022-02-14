@@ -1,5 +1,6 @@
 package com.salesianostriana.dam.Miarma.users.model;
 
+import com.salesianostriana.dam.Miarma.model.Publicacion;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -58,6 +59,9 @@ public class UserEntity implements UserDetails {
     private boolean privado;
 
     private String password;
+
+    @OneToMany
+    private List<Publicacion> publicaciones;
 
 
     //Helpers

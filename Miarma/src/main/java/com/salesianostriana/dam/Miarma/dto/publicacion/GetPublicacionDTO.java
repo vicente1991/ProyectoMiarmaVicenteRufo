@@ -23,5 +23,7 @@ public class GetPublicacionDTO {
 
     private EstadoPublicacion estadoPublicacion;
 
+    private String nick;
+
 
 }

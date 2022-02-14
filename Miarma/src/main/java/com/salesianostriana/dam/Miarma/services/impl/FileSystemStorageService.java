@@ -207,9 +207,10 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public void deleteFile(String filename) {
-        //Pendiente de explicación en clase
+    public void deleteFile(Path filename) throws Exception {
+
     }
+
 
     @Override
     public void deleteAll() {

@@ -1,6 +1,7 @@
 package com.salesianostriana.dam.Miarma.model;
 
 
+import com.salesianostriana.dam.Miarma.users.model.UserEntity;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
@@ -28,4 +29,19 @@ public class Publicacion {
     @Enumerated(EnumType.STRING)
     @Column(name = "estado")
     private EstadoPublicacion estadoPublicacion;
+
+    @ManyToOne
+    private UserEntity user;
+
+    //HELPERS
+
+    public void addUser(UserEntity u) {
+        this.user = u;
+        u.getPublicaciones().add(this);
+    }
+
+    public void removeUser(UserEntity u) {
+        u.getPublicaciones().remove(this);
+        this.user = null;
+    }
 }

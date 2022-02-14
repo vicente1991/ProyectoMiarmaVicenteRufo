@@ -23,7 +23,7 @@ public interface StorageService {
 
     Resource loadAsResource(String filename);
 
-    void deleteFile(String filename);
+    void deleteFile(Path filename)throws Exception;
 
     void deleteAll();
 

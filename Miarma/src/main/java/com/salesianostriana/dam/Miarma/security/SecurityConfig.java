@@ -53,7 +53,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/me").authenticated()
                 //FILE
                 .antMatchers(HttpMethod.GET, "/download/{filename:.+}").permitAll()
-                //PUBLICACIONES
+                //PUBLICACION
+                .antMatchers(HttpMethod.POST,"/post/").permitAll()
+                .antMatchers(HttpMethod.GET,"/post/public").anonymous()
+
                 
                 .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated();
