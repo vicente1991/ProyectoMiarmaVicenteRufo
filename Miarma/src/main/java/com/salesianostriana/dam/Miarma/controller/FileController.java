@@ -47,8 +47,6 @@ public class FileController {
         return ResponseEntity.status(HttpStatus.OK)
                 .header("content-type", resource.getType())
                 .body(resource);
-
-
     }
 
 }

@@ -55,20 +55,16 @@ public class UserEntity implements UserDetails {
 
     private String avatar;
 
+    private boolean privado;
+
     private String password;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "rol")
-    private UserRoles userRoles;
-
 
 
     //Helpers
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_"+ userRoles.name()));
+        return null;
     }
 
     @Override
