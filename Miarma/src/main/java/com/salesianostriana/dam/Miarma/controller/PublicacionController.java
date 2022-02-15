@@ -33,9 +33,9 @@ public class PublicacionController {
     public ResponseEntity<GetPublicacionDTO> create(@RequestPart("file") MultipartFile file,
                                                     @RequestPart("newPublicacion") CreatePublicacionDTO newPublicacion,
                                                     @AuthenticationPrincipal UserEntity user) throws Exception {
-        publicacionService.create(newPublicacion, file, user);
+        Publicacion pub = publicacionService.create(newPublicacion, file, user);
 
-        GetPublicacionDTO publicacionDTO = dto.PublicacionToGetPublicacionDto(publicacionRepository.findByTitulo(newPublicacion.getTitulo()));
+        GetPublicacionDTO publicacionDTO = dto.PublicacionToGetPublicacionDto(pub);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(publicacionDTO);
     }
@@ -61,7 +61,7 @@ public class PublicacionController {
     }*/
 
     @PutMapping("/{id}")
-    public ResponseEntity<Optional<Publicacion>> updatePublicacion(@PathVariable Long id, @RequestPart("editPost") CreatePublicacionDTO createPublicacionDto, @RequestPart("file") MultipartFile file) throws Exception {
+    public ResponseEntity<Optional<GetPublicacionDTO>> updatePublicacion(@PathVariable Long id, @RequestPart("editPost") CreatePublicacionDTO createPublicacionDto, @RequestPart("file") MultipartFile file) throws Exception {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(publicacionService.actualizarPubli(id, createPublicacionDto, file));
 
@@ -80,7 +80,7 @@ public class PublicacionController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<List<Publicacion>> findAllPubliLog(@AuthenticationPrincipal UserEntity user){
+    public ResponseEntity<List<GetPublicacionDTO>> findAllPubliLog(@AuthenticationPrincipal UserEntity user){
         return ResponseEntity.ok().body(publicacionService.findAllPubliLog(user));
     }
 

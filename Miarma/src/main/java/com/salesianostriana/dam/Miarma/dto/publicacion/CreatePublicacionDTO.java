@@ -1,5 +1,7 @@
 package com.salesianostriana.dam.Miarma.dto.publicacion;
 import javax.validation.constraints.NotBlank;
+
+import com.salesianostriana.dam.Miarma.model.EstadoPublicacion;
 import com.sun.istack.NotNull;
 import lombok.*;
 
@@ -16,7 +18,7 @@ public class CreatePublicacionDTO {
 
     private String texto;
 
-    private boolean estadoPubli;
+    private EstadoPublicacion estadoPubli;
 
     @NotBlank
     private String imagen;

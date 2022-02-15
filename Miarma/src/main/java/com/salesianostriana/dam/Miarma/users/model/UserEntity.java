@@ -24,6 +24,13 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@NamedEntityGraph(
+        name = "UsuarioConPosts",attributeNodes = {
+        @NamedAttributeNode("publicaciones"),
+        @NamedAttributeNode("seguidores"),
+        @NamedAttributeNode("siguiendo")
+}
+)
 public class UserEntity implements UserDetails {
 
     @Id
@@ -58,15 +65,15 @@ public class UserEntity implements UserDetails {
 
     private String password;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     @Builder.Default
     private List<Publicacion> publicaciones=new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "seguidores")
     @Builder.Default
     private List<UserEntity> siguiendo= new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "siguiendo")
+    @ManyToMany(fetch = FetchType.LAZY)
     @Builder.Default
     private List<UserEntity> seguidores=new ArrayList<>();
 

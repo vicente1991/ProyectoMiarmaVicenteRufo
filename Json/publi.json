@@ -2,5 +2,5 @@
     "titulo": "titulo largo",
     "texto": "con un texto igual o mas largo",
     "file": "",
-    "estadoPublicacion": true 
+    "estadoPublicacion": "PUBLICO" 
 }

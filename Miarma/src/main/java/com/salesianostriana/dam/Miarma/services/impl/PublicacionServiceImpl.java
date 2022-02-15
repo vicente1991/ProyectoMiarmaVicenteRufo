@@ -1,6 +1,7 @@
 package com.salesianostriana.dam.Miarma.services.impl;
 
 import com.salesianostriana.dam.Miarma.dto.publicacion.CreatePublicacionDTO;
+import com.salesianostriana.dam.Miarma.dto.publicacion.GetPublicacionDTO;
 import com.salesianostriana.dam.Miarma.dto.publicacion.PublicacionConverterDTO;
 import com.salesianostriana.dam.Miarma.model.EstadoPublicacion;
 import com.salesianostriana.dam.Miarma.model.Publicacion;
@@ -52,7 +53,7 @@ public class PublicacionServiceImpl implements PublicacionService {
     public List<Publicacion> findAllPublicacionesPublic(){return publicacionRepository.findByEstadoPublicacion(EstadoPublicacion.PUBLICO);}
 
 
-    public Optional<Publicacion> actualizarPubli (Long id, CreatePublicacionDTO p, MultipartFile file) throws Exception {
+    public Optional<GetPublicacionDTO> actualizarPubli (Long id, CreatePublicacionDTO p, MultipartFile file) throws Exception {
         if (file.isEmpty()){
 
             Optional<Publicacion> data = publicacionRepository.findById(id);
@@ -60,10 +61,11 @@ public class PublicacionServiceImpl implements PublicacionService {
             return data.map(m -> {
                 m.setTitulo(p.getTitulo());
                 m.setTexto(p.getTexto());
-                m.setEstadoPublicacion(p.isEstadoPubli() ? EstadoPublicacion.PUBLICO : EstadoPublicacion.PRIVADO);
+                m.setEstadoPublicacion(p.getEstadoPubli());
                 m.setFechaPublicacion(Date.from(Instant.now()));
                 m.setImagen(m.getImagen());
-                return publicacionRepository.save(m);
+                publicacionRepository.save(m);
+                return dto.PublicacionToGetPublicacionDto(m);
             });
 
         }else{
@@ -91,10 +93,11 @@ public class PublicacionServiceImpl implements PublicacionService {
             return data.map(m -> {
                 m.setTitulo(p.getTitulo());
                 m.setTexto(p.getTexto());
-                m.setEstadoPublicacion(p.isEstadoPubli() ? EstadoPublicacion.PUBLICO : EstadoPublicacion.PRIVADO);
+                m.setEstadoPublicacion(p.getEstadoPubli());
                 m.setFechaPublicacion(Date.from(Instant.now()));
                 m.setImagen(uri);
-                return publicacionRepository.save(m);
+                publicacionRepository.save(m);
+                return dto.PublicacionToGetPublicacionDto(m);
             });
 
         }
@@ -122,7 +125,13 @@ public class PublicacionServiceImpl implements PublicacionService {
 
     }
 
-    public List<Publicacion> findAllPubliLog(UserEntity user){
-        return publicacionRepository.findByUser(user);
+    public List<GetPublicacionDTO> findAllPubliLog(UserEntity user){
+
+        List<Publicacion> list= publicacionRepository.findByUser(user);
+
+        List<GetPublicacionDTO> listaDto= list.stream().map(p-> new GetPublicacionDTO(p.getId(),
+                p.getTitulo(), p.getTexto(),p.getImagen(), p.getFechaPublicacion(), p.getEstadoPublicacion(), p.getUser().getNick())).toList();
+
+        return listaDto;
     }
 }
