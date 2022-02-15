@@ -46,19 +46,19 @@ public class PublicacionController {
     }
 
 
-    /*@GetMapping("/public")
+    @GetMapping("/public")
     public ResponseEntity<List<GetPublicacionDTO>> findAllPublicaciones() {
 
         if (publicacionService.findAllPublicacionesPublic().isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
             List<GetPublicacionDTO> list = publicacionService.findAllPublicacionesPublic().stream()
-                    .map(dto::createPublicacionDtoToPublicacion)
+                    .map(dto::PublicacionToGetPublicacionDto)
                     .collect(Collectors.toList());
             return ResponseEntity.ok().body(list);
         }
 
-    }*/
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Optional<GetPublicacionDTO>> updatePublicacion(@PathVariable Long id, @RequestPart("editPost") CreatePublicacionDTO createPublicacionDto, @RequestPart("file") MultipartFile file) throws Exception {
