@@ -1,8 +1,10 @@
 package com.salesianostriana.dam.Miarma.users.dto;
 
+import com.salesianostriana.dam.Miarma.model.Publicacion;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,4 +21,5 @@ public class CreateUserDto {
     private String avatar;
     private String password;
     private String password2;
+
 }

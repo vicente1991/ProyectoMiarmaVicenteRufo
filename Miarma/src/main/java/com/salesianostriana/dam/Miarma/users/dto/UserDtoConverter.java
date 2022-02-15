@@ -13,6 +13,9 @@ public class UserDtoConverter {
                 .apellidos(user.getApellidos())
                 .nick(user.getNick())
                 .fechaNacimiento(user.getFechaNacimiento())
+                .numPublicaciones(user.getPublicaciones())
+                .numSeguidores(user.getSeguidores().size())
+                .numSiguiendo(user.getSiguiendo().size())
                 .email(user.getEmail())
                 .avatar(user.getAvatar())
                 .build();

@@ -11,13 +11,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "usuarios")
@@ -61,7 +59,16 @@ public class UserEntity implements UserDetails {
     private String password;
 
     @OneToMany
-    private List<Publicacion> publicaciones;
+    @Builder.Default
+    private List<Publicacion> publicaciones=new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<UserEntity> siguiendo= new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "siguiendo")
+    @Builder.Default
+    private List<UserEntity> seguidores=new ArrayList<>();
 
 
     //Helpers

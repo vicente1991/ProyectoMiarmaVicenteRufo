@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "bb42258f-7baf-455e-8df1-fa05b9a58d37",
+		"_postman_id": "dbe9e42a-bc09-4267-bf50-58dca6eff0cd",
 		"name": "MiarmaPostman",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -17,16 +17,16 @@
 							"mode": "formdata",
 							"formdata": [
 								{
-									"key": "user",
-									"contentType": "application/json",
-									"type": "file",
-									"src": "/C:/Users/usuario/Desktop/ProyectoMiarmaVicenteRufo/Json/register.json"
-								},
-								{
 									"key": "file",
 									"contentType": "multipart/form-data",
 									"type": "file",
-									"src": []
+									"src": "/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/FotoPrueba/ubeda.jpg"
+								},
+								{
+									"key": "user",
+									"contentType": "application/json",
+									"type": "file",
+									"src": "/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/Json/register.json"
 								}
 							],
 							"options": {
@@ -65,11 +65,21 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n     \"email\": \"blabla@mail.com\",\r\n     \"password\": \"123\"\r\n}",
+							"raw": "{\r\n     \"email\": \"blabla@mail.com\",\r\n     \"password\": \"1234\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -185,10 +195,15 @@
 							"mode": "formdata",
 							"formdata": [
 								{
-									"key": "post",
+									"key": "newPublicacion",
 									"contentType": "application/json",
 									"type": "file",
-									"src": "/C:/Users/usuario/Desktop/ProyectoMiarmaVicenteRufo/Json/publi.json"
+									"src": "/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/Json/publi.json"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/FotoPrueba/ubeda.jpg"
 								}
 							]
 						},
@@ -209,9 +224,6 @@
 				},
 				{
 					"name": "Editar publi",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -223,7 +235,7 @@
 								}
 							]
 						},
-						"method": "GET",
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "formdata",
@@ -232,13 +244,13 @@
 									"key": "file",
 									"contentType": "multipart/form-data",
 									"type": "file",
-									"src": "/C:/Users/usuario/Desktop/jaimeeeeee.png"
+									"src": []
 								},
 								{
-									"key": "post",
+									"key": "editPost",
 									"contentType": "application/json",
 									"type": "file",
-									"src": "/C:/Users/usuario/Desktop/ProyectoMiarmaVicenteRufo/Json/publi.json"
+									"src": "/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/Json/publi.json"
 								}
 							]
 						},
