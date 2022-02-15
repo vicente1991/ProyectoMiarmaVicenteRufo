@@ -8,6 +8,7 @@ import com.salesianostriana.dam.Miarma.services.StorageService;
 import com.salesianostriana.dam.Miarma.services.base.BaseService;
 import com.salesianostriana.dam.Miarma.services.impl.PeticionService;
 import com.salesianostriana.dam.Miarma.users.dto.CreateUserDto;
+import com.salesianostriana.dam.Miarma.users.dto.GetUserDTOFollowers;
 import com.salesianostriana.dam.Miarma.users.dto.GetUserDto;
 import com.salesianostriana.dam.Miarma.users.dto.UserDtoConverter;
 import com.salesianostriana.dam.Miarma.users.model.UserEntity;
@@ -101,19 +102,12 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
         }else{
 
             Optional<UserEntity> data = userEntityRepository.findById(user.getId());
-
             String name = StringUtils.cleanPath(String.valueOf(data.get().getAvatar())).replace("http://localhost:8080/download/", "");
-
-            Path pa = storageService.load(name);
-
-            String filename = StringUtils.cleanPath(String.valueOf(pa)).replace("http://localhost:8080/download/", "");;
-
-            Path path = Paths.get(filename);
-
-            storageService.deleteFile(path);
-
+            Path p = storageService.load(name);
+            String filename = StringUtils.cleanPath(String.valueOf(p)).replace("http://localhost:8080/download/", "");
+            Path pa = Paths.get(filename);
+            storageService.deleteFile(pa);
             String avatar = storageService.storeAvatar(file);
-
 
             String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path("/download/")
@@ -137,14 +131,32 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
     public Peticion sendPeticion (String nick, CreatePeticionDTO createPeticionDto, UserEntity user){
 
         UserEntity userEntity = userEntityRepository.findByNick(nick);
-
         Peticion peticion = peticionConverterDTO.createPeticionDtoToPeticion(createPeticionDto, userEntity, user);
-
         peticionRepository.save(peticion);
-
         return peticion;
+    }
 
+    public void aceptarPeticion(Long id, UserEntity user){
 
+        Optional<Peticion> peticionSeguimiento = peticionRepository.findById(id);
+        UserEntity seguidor = userEntityRepository.findByNick(peticionSeguimiento.get().getRecibido().getNick());
+        peticionSeguimiento.get().getDestino().addSeguidor(seguidor);
+        peticionSeguimiento.get().nullearDestinatarios();
+        peticionRepository.save(peticionSeguimiento.get());
+        peticionRepository.deleteById(id);
+    }
+
+    public void rechazarPeticion(Long id){
+        Optional<Peticion> peticionSeguimiento = peticionRepository.findById(id);
+        peticionSeguimiento.get().nullearDestinatarios();
+
+        peticionRepository.save(peticionSeguimiento.get());
+        peticionRepository.deleteById(id);
+    }
+
+    public GetUserDTOFollowers verPerfilDeUsuario (UUID id){
+        Optional<UserEntity> userEntity = userEntityRepository.findById(id);
+        return userDtoConverter.UserEntityToGetUserDtoWithFollowers(userEntity);
     }
 
 }

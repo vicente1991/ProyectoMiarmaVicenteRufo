@@ -1,5 +1,6 @@
 package com.salesianostriana.dam.Miarma.users.model;
 
+import com.salesianostriana.dam.Miarma.model.Peticion;
 import com.salesianostriana.dam.Miarma.model.Publicacion;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,10 +12,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -58,7 +59,7 @@ public class UserEntity implements UserDetails {
     private String email;
 
     @DateTimeFormat
-    private Date fechaNacimiento;
+    private LocalDate fechaNacimiento;
 
     private String avatar;
 
@@ -70,18 +71,26 @@ public class UserEntity implements UserDetails {
     @Builder.Default
     private List<Publicacion> publicaciones=new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToMany
     @Builder.Default
-    @JoinColumn(name = "Wakala Juancarlos",referencedColumnName = "usuario")
-    private List<UserEntity> siguiendo= new ArrayList<>();
+    private List<UserEntity> seguidores= new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Wakala Juancarlos2",referencedColumnName = "usuario")
+    @OneToMany(fetch = FetchType.EAGER)
     @Builder.Default
-    private List<UserEntity> seguidores=new ArrayList<>();
+    private List<Peticion> siguiendo= new ArrayList<>();
 
 
     //Helpers
+
+    public void addSeguidor(UserEntity u) {
+        this.seguidores = List.of(u);
+        u.getSeguidores().add(this);
+    }
+
+    public void removeSeguidor(UserEntity u) {
+        u.getSeguidores().remove(this);
+        this.seguidores = null;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

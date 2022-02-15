@@ -25,4 +25,19 @@ public class Peticion implements Serializable {
     @ManyToOne
     @JoinColumn(name = "recibido_usuario")
     private UserEntity recibido;
+
+
+    @PreRemove
+    public void nullearDestinatarios(){
+        recibido.setSiguiendo(null);
+    }
+    public void addDestinatario(UserEntity u) {
+        this.recibido = u;
+        u.getSiguiendo().add(this);
+    }
+
+    public void removeDestinatario(UserEntity u) {
+        u.getSiguiendo().remove(this);
+        this.recibido = null;
+    }
 }

@@ -4,6 +4,7 @@ import com.salesianostriana.dam.Miarma.model.EstadoPublicacion;
 import com.salesianostriana.dam.Miarma.model.Publicacion;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class CreateUserDto {
     private String apellidos;
     private String nick;
     private String email;
-    private Date fechaNacimiento;
+    private LocalDate fechaNacimiento;
     private boolean estadoPublicacion;
     private String avatar;
     private String password;

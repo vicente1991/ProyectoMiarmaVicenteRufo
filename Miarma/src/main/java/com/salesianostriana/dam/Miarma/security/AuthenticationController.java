@@ -58,7 +58,7 @@ public class AuthenticationController {
                 .apellidos(user.getApellidos())
                 .fechaNacimiento(user.getFechaNacimiento())
                 .nick(user.getNick())
-                .numPublicaciones(user.getPublicaciones())
+                .numPublicaciones(user.getPublicaciones().stream().map(m -> m.getTitulo()).toList())
                 .numSiguiendo(user.getSiguiendo().size())
                 .numSeguidores(user.getSeguidores().size())
                 .nombre(user.getNombre())

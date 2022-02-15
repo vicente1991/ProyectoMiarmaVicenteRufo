@@ -20,13 +20,13 @@
 									"key": "file",
 									"contentType": "multipart/form-data",
 									"type": "file",
-									"src": "/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/FotoPrueba/ubeda.jpg"
+									"src": "/C:/Users/usuario/Desktop/ProyectoMiarmaVicenteRufo/FotoPrueba/ubeda.jpg"
 								},
 								{
 									"key": "user",
 									"contentType": "application/json",
 									"type": "file",
-									"src": "/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/Json/register.json"
+									"src": "/C:/Users/usuario/Desktop/ProyectoMiarmaVicenteRufo/Json/register2.json"
 								}
 							],
 							"options": {
@@ -65,21 +65,11 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n     \"email\": \"blabla@mail.com\",\r\n     \"password\": \"1234\"\r\n}",
+							"raw": "{\r\n     \"email\": \"lmlopezmagana@mail.com\",\r\n     \"password\": \"1234\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -365,7 +355,7 @@
 					"response": []
 				},
 				{
-					"name": "Actualizar",
+					"name": "Actualizar usuario",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -410,9 +400,6 @@
 				},
 				{
 					"name": "Hacer follow",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -424,13 +411,14 @@
 								}
 							]
 						},
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
 								{
 									"key": "peticion",
+									"contentType": "application/json",
 									"type": "file",
 									"src": "/C:/Users/usuario/Desktop/ProyectoMiarmaVicenteRufo/Json/peticion.json"
 								}
@@ -446,6 +434,76 @@
 							"path": [
 								"follow",
 								"V"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ver Perfil",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/profile/c0a83801-7eff-1aea-817e-ff9b37280001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"profile",
+								"c0a83801-7eff-1aea-817e-ff9b37280001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Aceptar peticion",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/follow/accept/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"follow",
+								"accept",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Rechazar peticion",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/follow/decline/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"follow",
+								"decline",
+								"2"
 							]
 						}
 					},

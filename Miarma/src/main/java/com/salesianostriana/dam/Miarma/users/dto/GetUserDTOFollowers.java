@@ -3,6 +3,7 @@ package com.salesianostriana.dam.Miarma.users.dto;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,7 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class GetUserDto {
+public class GetUserDTOFollowers {
 
     private UUID id;
     private String nombre;
@@ -20,7 +21,6 @@ public class GetUserDto {
     private LocalDate fechaNacimiento;
     private String email;
     private String avatar;
-    private List<String> numPublicaciones;
-    private int numSeguidores;
-    private int numSiguiendo;
+    private List<String> followers;
+    private int peticiones;
 }

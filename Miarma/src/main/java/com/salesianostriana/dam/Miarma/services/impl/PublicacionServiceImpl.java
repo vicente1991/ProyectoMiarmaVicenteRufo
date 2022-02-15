@@ -72,11 +72,11 @@ public class PublicacionServiceImpl implements PublicacionService {
 
             Optional<Publicacion> data = publicacionRepository.findById(id);
 
-            String name = StringUtils.cleanPath(String.valueOf(data.get().getImagen())).replace("http://localhost:8080/download/", "");
+            String name = StringUtils.cleanPath(String.valueOf(data.get().getImagen())).replace("http://localhost:8080/download", "");
 
             Path pa = storageService.load(name);
 
-            String filename = StringUtils.cleanPath(String.valueOf(pa)).replace("http://localhost:8080/download/", "");;
+            String filename = StringUtils.cleanPath(String.valueOf(pa)).replace("http://localhost:8080/download", "");;
 
             Path path = Paths.get(filename);
 
