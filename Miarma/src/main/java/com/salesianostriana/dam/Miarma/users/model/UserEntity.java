@@ -34,7 +34,7 @@ import java.util.*;
 public class UserEntity implements UserDetails {
 
     @Id
-    @Column(name = "pingo")
+    @Column(name = "usuario")
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
@@ -72,11 +72,11 @@ public class UserEntity implements UserDetails {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @Builder.Default
-    @JoinColumn(name = "Wakala Juancarlos",referencedColumnName = "pingo")
+    @JoinColumn(name = "Wakala Juancarlos",referencedColumnName = "usuario")
     private List<UserEntity> siguiendo= new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Wakala Juancarlos2",referencedColumnName = "pingo")
+    @JoinColumn(name = "Wakala Juancarlos2",referencedColumnName = "usuario")
     @Builder.Default
     private List<UserEntity> seguidores=new ArrayList<>();
 

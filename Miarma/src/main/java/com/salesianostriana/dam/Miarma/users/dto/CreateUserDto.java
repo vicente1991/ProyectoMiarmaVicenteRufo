@@ -1,5 +1,6 @@
 package com.salesianostriana.dam.Miarma.users.dto;
 
+import com.salesianostriana.dam.Miarma.model.EstadoPublicacion;
 import com.salesianostriana.dam.Miarma.model.Publicacion;
 import lombok.*;
 
@@ -18,6 +19,7 @@ public class CreateUserDto {
     private String nick;
     private String email;
     private Date fechaNacimiento;
+    private boolean estadoPublicacion;
     private String avatar;
     private String password;
     private String password2;

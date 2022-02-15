@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "dbe9e42a-bc09-4267-bf50-58dca6eff0cd",
+		"_postman_id": "140a8d3b-3caf-4dd1-995f-e09549f7b0c8",
 		"name": "MiarmaPostman",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -324,6 +324,128 @@
 							"path": [
 								"post",
 								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Listar Peticiones",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/follow/list",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"follow",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/usuario/Desktop/ProyectoMiarmaVicenteRufo/FotoPrueba/ubeda.jpg"
+								},
+								{
+									"key": "user",
+									"type": "file",
+									"src": "/C:/Users/usuario/Desktop/ProyectoMiarmaVicenteRufo/Json/publi.json"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/profile/me",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"profile",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Hacer follow",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "peticion",
+									"type": "file",
+									"src": "/C:/Users/usuario/Desktop/ProyectoMiarmaVicenteRufo/Json/peticion.json"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/follow/V",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"follow",
+								"V"
 							]
 						}
 					},

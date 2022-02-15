@@ -1,0 +1,10 @@
+{
+    "nombre": "Luis Miguel",
+    "apellidos": "Lopez Magana",
+    "nick": "Luismi",
+    "email": "lmlopezmagana@mail.com",
+    "fechaNacimiento": "1985-05-05",
+    "avatar":"",
+    "password": "1234",
+    "password2": "1234"
+}
