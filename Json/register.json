@@ -1,6 +1,10 @@
 {
-    "titulo": "titulo largo",
-    "texto": "con un texto igual o mas largo",
-    "file": "",
-    "estadoPublicacion": true 
+    "nombre": "Vicente",
+    "apellidos": "Rufo Bru",
+    "nick": "V",
+    "email": "blabla@mail.com",
+    "fechaNacimiento": "1991-02-26",
+    "avatar":"",
+    "password": "1234",
+    "password2": "1234"
 }

@@ -56,7 +56,7 @@ public class UserEntity implements UserDetails {
 
     private String avatar;
 
-    private boolean privado;
+    private boolean publico;
 
     private String password;
 
@@ -68,7 +68,7 @@ public class UserEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(new SimpleGrantedAuthority("usuario"));
     }
 
     @Override

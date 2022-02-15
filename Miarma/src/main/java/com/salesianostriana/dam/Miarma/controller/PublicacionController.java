@@ -6,7 +6,6 @@ import com.salesianostriana.dam.Miarma.dto.publicacion.GetPublicacionDTO;
 import com.salesianostriana.dam.Miarma.dto.publicacion.PublicacionConverterDTO;
 import com.salesianostriana.dam.Miarma.model.Publicacion;
 import com.salesianostriana.dam.Miarma.repository.PublicacionRepository;
-import com.salesianostriana.dam.Miarma.services.PublicacionService;
 import com.salesianostriana.dam.Miarma.services.impl.PublicacionServiceImpl;
 import com.salesianostriana.dam.Miarma.users.model.UserEntity;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +46,7 @@ public class PublicacionController {
     }
 
 
-   /* @GetMapping("/public")
+    /*@GetMapping("/public")
     public ResponseEntity<List<GetPublicacionDTO>> findAllPublicaciones() {
 
         if (publicacionService.findAllPublicacionesPublic().isEmpty()) {
@@ -62,7 +61,7 @@ public class PublicacionController {
     }*/
 
     @PutMapping("/{id}")
-    public ResponseEntity<Optional<Publicacion>> updatePublicacion(@PathVariable Long id, @RequestPart("publicacion") CreatePublicacionDTO createPublicacionDto, @RequestPart("file") MultipartFile file) throws Exception {
+    public ResponseEntity<Optional<Publicacion>> updatePublicacion(@PathVariable Long id, @RequestPart("editPost") CreatePublicacionDTO createPublicacionDto, @RequestPart("file") MultipartFile file) throws Exception {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(publicacionService.actualizarPubli(id, createPublicacionDto, file));
 

@@ -21,9 +21,9 @@ public class GetPublicacionDTO {
 
     private Date fechaPublicacion;
 
-    private EstadoPublicacion estadoPublicacion;
+    private EstadoPublicacion visibilidad;
 
-    private String nick;
+    private String  nick;
 
 
 }

@@ -19,6 +19,7 @@ public class PublicacionConverterDTO {
                 .imagen(uri)
                 .fechaPublicacion(Date.from(Instant.now()))
                 .estadoPublicacion(p.isEstadoPubli() ? EstadoPublicacion.PUBLICO : EstadoPublicacion.PRIVADO)
+                .user(user)
                 .build();
     }
 
@@ -30,7 +31,8 @@ public class PublicacionConverterDTO {
                 .texto(p.getTexto())
                 .file(p.getImagen())
                 .fechaPublicacion(p.getFechaPublicacion())
-                .estadoPublicacion(p.getEstadoPublicacion())
+                .visibilidad(p.getEstadoPublicacion())
+                .nick(p.getUser().getNick())
                 .build();
     }
 
