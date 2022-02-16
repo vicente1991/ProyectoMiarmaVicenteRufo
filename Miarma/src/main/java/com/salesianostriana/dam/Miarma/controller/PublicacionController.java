@@ -47,7 +47,7 @@ public class PublicacionController {
 
 
     @GetMapping("/public")
-    public ResponseEntity<List<GetPublicacionDTO>> findAllPublicaciones() {
+    public ResponseEntity<List<GetPublicacionDTO>> findAllPublicaciones(){
 
         if (publicacionService.findAllPublicacionesPublic().isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -57,7 +57,6 @@ public class PublicacionController {
                     .collect(Collectors.toList());
             return ResponseEntity.ok().body(list);
         }
-
     }
 
     @PutMapping("/{id}")
@@ -96,4 +95,9 @@ public class PublicacionController {
         }
     }
 
+    /*
+    @GetMapping("/")
+    public ResponseEntity<List<GetPublicacionDTO>> listAllPostByNick(@RequestParam(value = "nick") String nick){
+        return ResponseEntity.ok().body(publicacionService.PostListToGetPubli(nick));
+    }*/
 }

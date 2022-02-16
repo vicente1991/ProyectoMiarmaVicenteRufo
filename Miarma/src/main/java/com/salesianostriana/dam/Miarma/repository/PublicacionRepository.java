@@ -14,7 +14,10 @@ import java.util.UUID;
 
 public interface PublicacionRepository extends JpaRepository<Publicacion,Long> {
     List<Publicacion> findByUser(UserEntity user);
+
     List<Publicacion> findByEstadoPublicacion(EstadoPublicacion estadoPublicacion);
+
+    List<Publicacion> findAllByUserNick(String nick);
 
 
     @EntityGraph(value = "Publicacion-UserEntity")

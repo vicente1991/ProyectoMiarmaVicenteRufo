@@ -146,5 +146,15 @@ public class PublicacionServiceImpl implements PublicacionService {
 
     }
 
+    public List<GetPublicacionDTO> PostListToGetPubli(String user){
+        List<Publicacion> publi= publicacionRepository.findAll();
+        List<Publicacion> publiList= publicacionRepository.findAllByUserNick(user);
+        if(publi.isEmpty() && publiList.isEmpty()){
+            return Collections.EMPTY_LIST;
+        }else{
+            return publiList.stream().map(dto::PublicacionToGetPublicacionDto).collect(Collectors.toList());
+        }
+    }
+
 
 }
