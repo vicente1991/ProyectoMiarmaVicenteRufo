@@ -4,6 +4,7 @@
     "nick": "RA",
     "email": "lmlopezmagana@mail.com",
     "fechaNacimiento": "2002-02-02",
+    "visibilidad": "PRIVADO",
     "avatar":"",
     "password": "1234",
     "password2": "1234"

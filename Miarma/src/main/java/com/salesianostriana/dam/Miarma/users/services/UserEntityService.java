@@ -12,6 +12,7 @@ import com.salesianostriana.dam.Miarma.users.dto.GetUserDTOFollowers;
 import com.salesianostriana.dam.Miarma.users.dto.GetUserDto;
 import com.salesianostriana.dam.Miarma.users.dto.UserDtoConverter;
 import com.salesianostriana.dam.Miarma.users.model.UserEntity;
+import com.salesianostriana.dam.Miarma.users.model.UserRoles;
 import com.salesianostriana.dam.Miarma.users.repos.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -66,7 +67,7 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
                     .nombre(userDto.getNombre())
                     .apellidos(userDto.getApellidos())
                     .email(userDto.getEmail())
-                    .publico(userDto.isEstadoPublicacion())
+                    .visibilidad(userDto.getVisibilidad())
                     .fechaNacimiento(userDto.getFechaNacimiento())
                     .avatar(uri)
                     .password(passwordEncoder.encode(userDto.getPassword()))
@@ -92,7 +93,7 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
                 m.setNombre(u.getNombre());
                 m.setApellidos(user.getApellidos());
                 m.setNick(u.getNick());
-                m.setPublico(u.isEstadoPublicacion());
+                m.setVisibilidad(u.getVisibilidad());
                 m.setAvatar(m.getAvatar());
                 m.setEmail(u.getEmail());
                 userEntityRepository.save(m);
@@ -118,7 +119,7 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
                 m.setNombre(u.getNombre());
                 m.setApellidos(user.getApellidos());
                 m.setNick(u.getNick());
-                m.setPublico(u.isEstadoPublicacion());
+                m.setVisibilidad(u.getVisibilidad());
                 m.setAvatar(uri);
                 m.setEmail(u.getEmail());
                 userEntityRepository.save(m);
@@ -130,19 +131,29 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
 
     public Peticion sendPeticion (String nick, CreatePeticionDTO createPeticionDto, UserEntity user){
 
-        UserEntity userEntity = userEntityRepository.findByNick(nick);
-        Peticion peticion = peticionConverterDTO.createPeticionDtoToPeticion(createPeticionDto, userEntity, user);
-        peticionRepository.save(peticion);
-        return peticion;
+        Optional<UserEntity> usuario= userEntityRepository.findByNick(nick);
+
+        if(usuario.isPresent()){
+
+            Peticion peticion = Peticion.builder()
+                    .peticion(createPeticionDto.getTexto())
+                    .destino(user)
+                    .build();
+
+            usuario.get().addPeticion(peticion);
+            peticionRepository.save(peticion);
+
+            return peticion;
+        }else {
+            return null;
+        }
     }
 
     public void aceptarPeticion(Long id, UserEntity user){
 
-        Optional<Peticion> peticionSeguimiento = peticionRepository.findById(id);
-        UserEntity seguidor = userEntityRepository.findByNick(peticionSeguimiento.get().getRecibido().getNick());
-        peticionSeguimiento.get().getDestino().addSeguidor(seguidor);
-        peticionSeguimiento.get().nullearDestinatarios();
-        peticionRepository.save(peticionSeguimiento.get());
+        Optional<Peticion> peticion = peticionRepository.findById(id);
+        user.addSeguidor(peticion.get().getDestino());
+        peticion.get().nullearDestinatarios();
         peticionRepository.deleteById(id);
     }
 

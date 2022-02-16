@@ -1,5 +1,6 @@
 package com.salesianostriana.dam.Miarma.users.dto;
 
+import com.salesianostriana.dam.Miarma.model.Publicacion;
 import com.salesianostriana.dam.Miarma.users.model.UserEntity;
 import org.springframework.stereotype.Component;
 
@@ -15,9 +16,10 @@ public class UserDtoConverter {
                 .apellidos(user.getApellidos())
                 .nick(user.getNick())
                 .fechaNacimiento(user.getFechaNacimiento())
-                .numPublicaciones(user.getPublicaciones().stream().map(m -> m.getTitulo()).toList())
-                .numSeguidores(user.getSeguidores().size())
-                .numSiguiendo(user.getSiguiendo().size())
+                .visibilidad(user.getVisibilidad().name())
+                .numPublicaciones(user.getPublicaciones().size())
+                .numSeguidores(user.getSeguidor().size())
+                .numSiguiendo(user.getSeguido().size())
                 .email(user.getEmail())
                 .avatar(user.getAvatar())
                 .build();
@@ -33,8 +35,9 @@ public class UserDtoConverter {
                 .fechaNacimiento(user.get().getFechaNacimiento())
                 .email(user.get().getEmail())
                 .avatar(user.get().getAvatar())
-                .followers(user.get().getSeguidores().stream().map(p -> p.getNick()).toList())
-                .peticiones(user.get().getSiguiendo().size())
+                .userRoles(user.get().getVisibilidad().name())
+                .followers(user.get().getSeguidor().stream().map(p -> p.getSeguidor().toString()).toList())
+                .peticiones(user.get().getSeguido().size())
                 .build();
     }
 }

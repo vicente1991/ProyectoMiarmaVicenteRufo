@@ -100,12 +100,10 @@ public class UserController {
     public ResponseEntity<GetUserDTOFollowers> verPerfilUsuario(@PathVariable UUID id, @AuthenticationPrincipal UserEntity user){
 
         Optional<UserEntity> userEntity = userEntityRepository.findById(id);
-
-        if (userEntity.get().isPublico() || userEntity.get().getSiguiendo().contains(user)){
+        if (userEntity.get().getVisibilidad().equals(user.getVisibilidad()) || userEntity.get().getSeguido().contains(user)){
 
             GetUserDTOFollowers getUserDtoWithFollowers = userEntityService.verPerfilDeUsuario(id);
             return ResponseEntity.ok().body(getUserDtoWithFollowers);
-
         }else {
             throw new NoSuchElementException();
         }

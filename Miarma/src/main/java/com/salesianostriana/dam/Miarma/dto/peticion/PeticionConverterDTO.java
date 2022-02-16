@@ -24,7 +24,7 @@ public class PeticionConverterDTO {
         return Peticion.builder()
                 .peticion(createPeticionDto.getTexto() + user2.getNick())
                 .destino(user)
-                .recibido(user2)
+                .destino(user2)
                 .build();
 
     }

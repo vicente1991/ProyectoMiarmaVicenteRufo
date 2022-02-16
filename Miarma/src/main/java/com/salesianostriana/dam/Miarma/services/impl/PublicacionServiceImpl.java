@@ -37,7 +37,7 @@ public class PublicacionServiceImpl implements PublicacionService {
         String filename= storageService.storePublication(file);
 
         String uri= ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/download")
+                .path("/download/")
                 .path(filename)
                 .toUriString();
 
@@ -71,17 +71,11 @@ public class PublicacionServiceImpl implements PublicacionService {
         }else{
 
             Optional<Publicacion> data = publicacionRepository.findById(id);
-
-            String name = StringUtils.cleanPath(String.valueOf(data.get().getImagen())).replace("http://localhost:8080/download", "");
-
+            String name = StringUtils.cleanPath(String.valueOf(data.get().getImagen())).replace("http://localhost:8080/download/", "");
             Path pa = storageService.load(name);
-
-            String filename = StringUtils.cleanPath(String.valueOf(pa)).replace("http://localhost:8080/download", "");;
-
+            String filename = StringUtils.cleanPath(String.valueOf(pa)).replace("http://localhost:8080/download/", "");;
             Path path = Paths.get(filename);
-
             storageService.deleteFile(path);
-
             String original = storageService.storeOriginal(file);
             String newFilename = storageService.storePublication(file);
 
@@ -99,39 +93,24 @@ public class PublicacionServiceImpl implements PublicacionService {
                 publicacionRepository.save(m);
                 return dto.PublicacionToGetPublicacionDto(m);
             });
-
         }
-
-
-
     }
 
     public void deletePublicacion(Long id) throws Exception {
-
-
-       Optional<Publicacion> data = publicacionRepository.findById(id);
-
+        Optional<Publicacion> data = publicacionRepository.findById(id);
         String name = StringUtils.cleanPath(String.valueOf(data.get().getImagen())).replace("http://localhost:8080/download", "");
-
         Path pa = storageService.load(name);
-
-        String filename = StringUtils.cleanPath(String.valueOf(pa)).replace("http://localhost:8080/download", "");;
-
+        String filename = StringUtils.cleanPath(String.valueOf(pa)).replace("http://localhost:8080/download", "");
         Path path = Paths.get(filename);
-
         storageService.deleteFile(path);
-
         publicacionRepository.deleteById(id);
-
     }
 
     public List<GetPublicacionDTO> findAllPubliLog(UserEntity user){
 
         List<Publicacion> list= publicacionRepository.findByUser(user);
-
         List<GetPublicacionDTO> listaDto= list.stream().map(p-> new GetPublicacionDTO(p.getId(),
                 p.getTitulo(), p.getTexto(),p.getImagen(), p.getFechaPublicacion(), p.getEstadoPublicacion(), p.getUser().getNick())).toList();
-
         return listaDto;
     }
 }

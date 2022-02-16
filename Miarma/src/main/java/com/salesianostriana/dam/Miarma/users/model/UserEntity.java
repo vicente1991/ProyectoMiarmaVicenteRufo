@@ -27,11 +27,11 @@ import java.util.*;
 @Builder
 @NamedEntityGraph(
         name = "UsuarioConPosts",attributeNodes = {
-        @NamedAttributeNode("publicaciones"),
-        @NamedAttributeNode("seguidores"),
-        @NamedAttributeNode("siguiendo")
+        @NamedAttributeNode("posts"),
+        @NamedAttributeNode("seguidores")
 }
 )
+
 public class UserEntity implements UserDetails {
 
     @Id
@@ -63,33 +63,39 @@ public class UserEntity implements UserDetails {
 
     private String avatar;
 
-    private boolean publico;
+    private UserRoles visibilidad;
 
     private String password;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER)
     @Builder.Default
     private List<Publicacion> publicaciones=new ArrayList<>();
 
-    @OneToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @Builder.Default
-    private List<UserEntity> seguidores= new ArrayList<>();
+    private List<UserEntity> seguidor= new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @Builder.Default
-    private List<Peticion> siguiendo= new ArrayList<>();
+    private List<Peticion> seguido= new ArrayList<>();
 
 
     //Helpers
 
+    public void addPeticion(Peticion p){
+        if(this.getSeguido()== null){
+            this.setSeguido(new ArrayList<>());
+        }
+
+    }
     public void addSeguidor(UserEntity u) {
-        this.seguidores = List.of(u);
-        u.getSeguidores().add(this);
+        this.seguidor = List.of(u);
+        u.getSeguidor().add(this);
     }
 
     public void removeSeguidor(UserEntity u) {
-        u.getSeguidores().remove(this);
-        this.seguidores = null;
+        u.getSeguidor().remove(this);
+        this.seguidor = null;
     }
 
     @Override

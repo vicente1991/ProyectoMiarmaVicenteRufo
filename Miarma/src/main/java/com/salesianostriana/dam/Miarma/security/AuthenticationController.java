@@ -57,13 +57,14 @@ public class AuthenticationController {
                 .id(user.getId())
                 .apellidos(user.getApellidos())
                 .fechaNacimiento(user.getFechaNacimiento())
+                .numPublicaciones(user.getPublicaciones().size())
+                .numSiguiendo(user.getSeguido().size())
+                .numSeguidores(user.getSeguidor().size())
                 .nick(user.getNick())
-                .numPublicaciones(user.getPublicaciones().stream().map(m -> m.getTitulo()).toList())
-                .numSiguiendo(user.getSiguiendo().size())
-                .numSeguidores(user.getSeguidores().size())
                 .nombre(user.getNombre())
                 .email(user.getEmail())
                 .avatar(user.getAvatar())
+                .visibilidad(user.getVisibilidad().name())
                 .build();
     }
 

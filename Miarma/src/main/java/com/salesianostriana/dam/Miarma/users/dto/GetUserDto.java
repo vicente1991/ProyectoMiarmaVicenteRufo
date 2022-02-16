@@ -1,5 +1,8 @@
 package com.salesianostriana.dam.Miarma.users.dto;
 
+import com.salesianostriana.dam.Miarma.model.EstadoPublicacion;
+import com.salesianostriana.dam.Miarma.model.Publicacion;
+import com.salesianostriana.dam.Miarma.users.model.UserRoles;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -20,7 +23,8 @@ public class GetUserDto {
     private LocalDate fechaNacimiento;
     private String email;
     private String avatar;
-    private List<String> numPublicaciones;
+    private String visibilidad;
+    private int numPublicaciones;
     private int numSeguidores;
     private int numSiguiendo;
 }

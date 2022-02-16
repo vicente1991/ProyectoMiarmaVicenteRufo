@@ -22,22 +22,11 @@ public class Peticion implements Serializable {
     @JoinColumn(name = "destino_usuario")
     private UserEntity destino;
 
-    @ManyToOne
-    @JoinColumn(name = "recibido_usuario")
-    private UserEntity recibido;
 
 
     @PreRemove
     public void nullearDestinatarios(){
-        recibido.setSiguiendo(null);
-    }
-    public void addDestinatario(UserEntity u) {
-        this.recibido = u;
-        u.getSiguiendo().add(this);
+        destino.setSeguidor(null);
     }
 
-    public void removeDestinatario(UserEntity u) {
-        u.getSiguiendo().remove(this);
-        this.recibido = null;
-    }
 }
