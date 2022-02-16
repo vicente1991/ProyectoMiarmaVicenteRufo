@@ -22,6 +22,6 @@ public class GetUserDTOFollowers {
     private String email;
     private String avatar;
     private String userRoles;
-    private List<String> followers;
+    private List<String> seguidores;
     private int peticiones;
 }

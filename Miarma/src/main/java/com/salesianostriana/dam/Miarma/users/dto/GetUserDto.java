@@ -24,7 +24,4 @@ public class GetUserDto {
     private String email;
     private String avatar;
     private String visibilidad;
-    private int numPublicaciones;
-    private int numSeguidores;
-    private int numSiguiendo;
 }

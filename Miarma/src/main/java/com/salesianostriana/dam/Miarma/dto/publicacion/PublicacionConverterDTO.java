@@ -6,6 +6,7 @@ import com.salesianostriana.dam.Miarma.users.model.UserEntity;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Component
@@ -17,7 +18,7 @@ public class PublicacionConverterDTO {
                 .titulo(p.getTitulo())
                 .texto(p.getTexto())
                 .imagen(uri)
-                .fechaPublicacion(Date.from(Instant.now()))
+                .fechaPublicacion(LocalDate.from(Instant.now()))
                 .estadoPublicacion(p.getEstadoPubli())
                 .user(user)
                 .build();

@@ -17,9 +17,6 @@ public class UserDtoConverter {
                 .nick(user.getNick())
                 .fechaNacimiento(user.getFechaNacimiento())
                 .visibilidad(user.getVisibilidad().name())
-                .numPublicaciones(user.getPublicaciones().size())
-                .numSeguidores(user.getSeguidor().size())
-                .numSiguiendo(user.getSeguido().size())
                 .email(user.getEmail())
                 .avatar(user.getAvatar())
                 .build();
@@ -36,7 +33,7 @@ public class UserDtoConverter {
                 .email(user.get().getEmail())
                 .avatar(user.get().getAvatar())
                 .userRoles(user.get().getVisibilidad().name())
-                .followers(user.get().getSeguidor().stream().map(p -> p.getSeguidor().toString()).toList())
+                .seguidores(user.get().getSeguidor().stream().map(p -> p.getNick()).toList())
                 .peticiones(user.get().getSeguido().size())
                 .build();
     }

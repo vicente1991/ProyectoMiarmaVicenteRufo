@@ -79,9 +79,21 @@ public class PublicacionController {
         }
     }
 
+
     @GetMapping("/me")
     public ResponseEntity<List<GetPublicacionDTO>> findAllPubliLog(@AuthenticationPrincipal UserEntity user){
-        return ResponseEntity.ok().body(publicacionService.findAllPubliLog(user));
+        return ResponseEntity.ok().body(publicacionService.PostListGraph(user));
+    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<GetPublicacionDTO> findOnePubli(@PathVariable Long id, @AuthenticationPrincipal UserEntity user){
+        GetPublicacionDTO p= publicacionService.findOnePubli(id,user);
+        if (p==null){
+            return ResponseEntity.badRequest().build();
+        }else{
+            return ResponseEntity.ok().body(p);
+        }
     }
 
 }

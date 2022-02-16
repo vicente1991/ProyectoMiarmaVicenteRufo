@@ -17,11 +17,13 @@ public class Peticion implements Serializable {
 
     private String peticion;
 
-
     @ManyToOne
     @JoinColumn(name = "destino_usuario")
     private UserEntity destino;
 
+    @ManyToOne
+    @JoinColumn(name = "origen_usuario")
+    private UserEntity origen;
 
 
     @PreRemove

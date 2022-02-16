@@ -5,12 +5,18 @@ import com.salesianostriana.dam.Miarma.users.model.UserEntity;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
 @NoArgsConstructor @AllArgsConstructor
 @Builder
 @Getter @Setter
+@NamedEntityGraph(
+        name = "Publicacion-UserEntity",attributeNodes = {
+        @NamedAttributeNode("user"),
+}
+)
 public class Publicacion {
 
     @Id
@@ -25,7 +31,7 @@ public class Publicacion {
     private String imagen;
 
     @DateTimeFormat
-    private Date fechaPublicacion;
+    private LocalDate fechaPublicacion;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado")

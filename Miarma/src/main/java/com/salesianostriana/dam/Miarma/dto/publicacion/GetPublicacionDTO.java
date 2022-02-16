@@ -2,6 +2,8 @@ package com.salesianostriana.dam.Miarma.dto.publicacion;
 
 import com.salesianostriana.dam.Miarma.model.EstadoPublicacion;
 import lombok.*;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -19,7 +21,7 @@ public class GetPublicacionDTO {
 
     private String file;
 
-    private Date fechaPublicacion;
+    private LocalDate fechaPublicacion;
 
     private EstadoPublicacion visibilidad;
 

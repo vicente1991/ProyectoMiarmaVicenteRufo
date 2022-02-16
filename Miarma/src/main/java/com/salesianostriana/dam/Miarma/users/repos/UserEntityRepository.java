@@ -12,4 +12,6 @@ public interface UserEntityRepository extends JpaRepository<UserEntity, UUID> {
     Optional<UserEntity> findById(UUID uuid);
 
     Optional<UserEntity> findByNick(String nick);
+
+    UserEntity findBySeguidorContains(UserEntity user);
 }

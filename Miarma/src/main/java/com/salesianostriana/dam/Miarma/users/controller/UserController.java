@@ -10,6 +10,7 @@ import com.salesianostriana.dam.Miarma.users.dto.GetUserDTOFollowers;
 import com.salesianostriana.dam.Miarma.users.dto.GetUserDto;
 import com.salesianostriana.dam.Miarma.users.dto.UserDtoConverter;
 import com.salesianostriana.dam.Miarma.users.model.UserEntity;
+import com.salesianostriana.dam.Miarma.users.model.UserRoles;
 import com.salesianostriana.dam.Miarma.users.repos.UserEntityRepository;
 import com.salesianostriana.dam.Miarma.users.services.UserEntityService;
 import lombok.RequiredArgsConstructor;
@@ -100,7 +101,7 @@ public class UserController {
     public ResponseEntity<GetUserDTOFollowers> verPerfilUsuario(@PathVariable UUID id, @AuthenticationPrincipal UserEntity user){
 
         Optional<UserEntity> userEntity = userEntityRepository.findById(id);
-        if (userEntity.get().getVisibilidad().equals(user.getVisibilidad()) || userEntity.get().getSeguido().contains(user)){
+        if (userEntity.get().getVisibilidad().equals(UserRoles.PUBLICO) || userEntity.get().getSeguidor().contains(user)){
 
             GetUserDTOFollowers getUserDtoWithFollowers = userEntityService.verPerfilDeUsuario(id);
             return ResponseEntity.ok().body(getUserDtoWithFollowers);
