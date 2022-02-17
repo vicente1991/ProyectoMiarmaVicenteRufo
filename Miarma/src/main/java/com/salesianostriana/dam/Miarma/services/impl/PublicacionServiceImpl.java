@@ -167,7 +167,6 @@ public class PublicacionServiceImpl implements PublicacionService {
             return Collections.EMPTY_LIST;
         }else if (!u.equals(s)){
             return publiList2.stream().map(dto::PublicacionToGetPublicacionDto).collect(Collectors.toList());
-
         }else{
             return publiList1.stream().map(dto::PublicacionToGetPublicacionDto).collect(Collectors.toList());
         }

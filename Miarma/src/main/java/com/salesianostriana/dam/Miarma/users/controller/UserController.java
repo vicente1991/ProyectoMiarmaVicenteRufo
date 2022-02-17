@@ -78,7 +78,6 @@ public class UserController {
         if (id.equals(null)){
             throw new NoSuchElementException();
         }else {
-
             userEntityService.aceptarPeticion(id, userEntity);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
@@ -87,7 +86,6 @@ public class UserController {
 
     @PostMapping("follow/decline/{id}")
     public ResponseEntity<?> declinePeticion(@PathVariable Long id){
-
         if (id.equals(null)){
             throw new NoSuchElementException();
         }else {
@@ -102,9 +100,8 @@ public class UserController {
 
         Optional<UserEntity> userEntity = userEntityRepository.findById(id);
         if (userEntity.get().getVisibilidad().equals(UserRoles.PUBLICO) || userEntity.get().getSeguidor().contains(user)){
-
-            GetUserDTOFollowers getUserDtoWithFollowers = userEntityService.verPerfilDeUsuario(id);
-            return ResponseEntity.ok().body(getUserDtoWithFollowers);
+            GetUserDTOFollowers getUserDtoWithSeguidores = userEntityService.verPerfilDeUsuario(id);
+            return ResponseEntity.ok().body(getUserDtoWithSeguidores);
         }else {
             throw new NoSuchElementException();
         }

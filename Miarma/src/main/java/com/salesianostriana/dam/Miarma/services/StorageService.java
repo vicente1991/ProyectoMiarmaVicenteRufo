@@ -3,6 +3,7 @@ package com.salesianostriana.dam.Miarma.services;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.stream.Stream;
@@ -10,8 +11,6 @@ import java.util.stream.Stream;
 public interface StorageService {
 
     void init();
-
-    String storeAvatar(MultipartFile file) throws IOException, Exception;
 
     String storeOriginal(MultipartFile file);
 
@@ -26,5 +25,7 @@ public interface StorageService {
     void deleteFile(Path filename)throws Exception;
 
     void deleteAll();
+
+    BufferedImage escaler(BufferedImage imagen, int width) throws Exception;
 
 }

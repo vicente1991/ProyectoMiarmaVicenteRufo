@@ -24,6 +24,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -54,7 +58,17 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
 
     public UserEntity saveUser(CreateUserDto userDto, MultipartFile file) throws Exception {
 
-        String filename = storageService.storeAvatar(file);
+        String filename = storageService.storePublication(file);
+
+        String ext = StringUtils.getFilenameExtension(filename);
+
+        BufferedImage originalImage = ImageIO.read(file.getInputStream());
+
+        BufferedImage escaledImage = storageService.escaler(originalImage,128);
+
+        OutputStream outputStream = Files.newOutputStream(storageService.load(filename));
+
+        ImageIO.write(escaledImage,ext,outputStream);
 
         String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/download/")
@@ -108,7 +122,7 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
             String filename = StringUtils.cleanPath(String.valueOf(p)).replace("http://localhost:8080/download/", "");
             Path pa = Paths.get(filename);
             storageService.deleteFile(pa);
-            String avatar = storageService.storeAvatar(file);
+            String avatar = storageService.storePublication(file);
 
             String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path("/download/")
