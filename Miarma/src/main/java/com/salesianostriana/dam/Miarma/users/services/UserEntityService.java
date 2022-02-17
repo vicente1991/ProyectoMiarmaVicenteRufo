@@ -2,6 +2,7 @@ package com.salesianostriana.dam.Miarma.users.services;
 
 import com.salesianostriana.dam.Miarma.dto.peticion.CreatePeticionDTO;
 import com.salesianostriana.dam.Miarma.dto.peticion.PeticionConverterDTO;
+import com.salesianostriana.dam.Miarma.exception.UsuarioException;
 import com.salesianostriana.dam.Miarma.model.Peticion;
 import com.salesianostriana.dam.Miarma.repository.PeticionRepository;
 import com.salesianostriana.dam.Miarma.services.StorageService;
@@ -145,8 +146,9 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
 
     public Peticion sendPeticion (String nick, CreatePeticionDTO createPeticionDto, UserEntity user){
         UserEntity usuario= userEntityRepository.findByNick(nick);
-        if(usuario!= null){
-
+        if(usuario==null || usuario.getNick().equals(user.getNick())){
+            throw new UsuarioException("No puedes enviarte peticiones a ti mismo");
+        }else{
             Peticion peticion = Peticion.builder()
                     .peticion(createPeticionDto.getTexto() + user.getNick())
                     .destino(usuario)
@@ -154,8 +156,6 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
             usuario.addPeticion(peticion);
             peticionRepository.save(peticion);
             return peticion;
-        }else {
-            return null;
         }
     }
 
