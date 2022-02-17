@@ -67,7 +67,7 @@ public class PublicacionServiceImpl implements PublicacionService {
                 m.setTitulo(p.getTitulo());
                 m.setTexto(p.getTexto());
                 m.setEstadoPublicacion(p.getEstadoPubli());
-                m.setFechaPublicacion(LocalDate.from(Instant.now()));
+                m.setFechaPublicacion(LocalDate.now());
                 m.setImagen(m.getImagen());
                 publicacionRepository.save(m);
                 return dto.PublicacionToGetPublicacionDto(m);
@@ -93,7 +93,7 @@ public class PublicacionServiceImpl implements PublicacionService {
                 m.setTitulo(p.getTitulo());
                 m.setTexto(p.getTexto());
                 m.setEstadoPublicacion(p.getEstadoPubli());
-                m.setFechaPublicacion(LocalDate.from(Instant.now()));
+                m.setFechaPublicacion(LocalDate.now());
                 m.setImagen(uri);
                 publicacionRepository.save(m);
                 return dto.PublicacionToGetPublicacionDto(m);

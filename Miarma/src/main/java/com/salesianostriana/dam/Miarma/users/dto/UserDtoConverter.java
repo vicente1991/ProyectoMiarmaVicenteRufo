@@ -23,7 +23,6 @@ public class UserDtoConverter {
     }
 
     public GetUserDTOFollowers UserEntityToGetUserDtoWithFollowers(Optional<UserEntity> user){
-
         return GetUserDTOFollowers.builder()
                 .id(user.get().getId())
                 .nombre(user.get().getNombre())

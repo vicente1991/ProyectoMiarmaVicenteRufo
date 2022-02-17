@@ -28,7 +28,6 @@ public class PublicacionController {
 
     private final PublicacionServiceImpl publicacionService;
     private final PublicacionConverterDTO dto;
-    private final PublicacionRepository publicacionRepository;
 
     @PostMapping("/")
     public ResponseEntity<GetPublicacionDTO> create(@RequestPart("file") MultipartFile file,
