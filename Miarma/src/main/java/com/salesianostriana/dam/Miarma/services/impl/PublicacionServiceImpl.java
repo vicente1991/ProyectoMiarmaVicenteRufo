@@ -156,5 +156,23 @@ public class PublicacionServiceImpl implements PublicacionService {
         }
     }
 
+    public List<GetPublicacionDTO> findAllPublicationsOfUser(String nick, UserEntity user){
+
+        List<Publicacion> publiList = publicacionRepository.findAll();
+        List<Publicacion> publiList1 = publicacionRepository.findOneByUserNick(nick);
+        List<Publicacion> publiList2 = publicacionRepository.findPubli(EstadoPublicacion.PUBLICO, nick);
+        UserEntity u = userEntityRepository.findByNick(nick);
+        UserEntity s = userEntityRepository.findBySeguidorContains(user);
+        if(publiList.isEmpty() && publiList.isEmpty()){
+            return Collections.EMPTY_LIST;
+        }else if (!u.equals(s)){
+            return publiList2.stream().map(dto::PublicacionToGetPublicacionDto).collect(Collectors.toList());
+
+        }else{
+            return publiList1.stream().map(dto::PublicacionToGetPublicacionDto).collect(Collectors.toList());
+        }
+
+    }
+
 
 }

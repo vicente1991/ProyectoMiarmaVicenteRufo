@@ -53,15 +53,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/me").authenticated()
                 //FILE
                 .antMatchers(HttpMethod.GET, "/download/{filename:.+}").permitAll()
-                //PUBLICACION
-                .antMatchers(HttpMethod.POST,"/post/").authenticated()
-                .antMatchers(HttpMethod.GET,"/post/public").authenticated()
+                .antMatchers(HttpMethod.POST, "/post/").authenticated()
+                .antMatchers(HttpMethod.GET, "/post/public").authenticated()
                 .antMatchers(HttpMethod.PUT, "/post/{id}").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/post/{id}").authenticated()
+                .antMatchers(HttpMethod.GET, "/post/{id}").authenticated()
+                .antMatchers(HttpMethod.GET, "/post/{nick}").authenticated()
                 //USUARIOS
                 .antMatchers(HttpMethod.GET, "/follow/list").authenticated()
                 .antMatchers(HttpMethod.PUT, "/profile/me").authenticated()
                 .antMatchers(HttpMethod.POST, "/follow/{nick}").authenticated()
+                .antMatchers(HttpMethod.POST, "/follow/accept/{id}").authenticated()
+                .antMatchers(HttpMethod.POST, "/follow/decline/{id}").authenticated()
+                .antMatchers(HttpMethod.GET, "/profile/{id}").authenticated()
                 .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated();
 

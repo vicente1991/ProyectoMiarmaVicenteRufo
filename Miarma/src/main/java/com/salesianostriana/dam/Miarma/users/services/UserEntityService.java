@@ -130,14 +130,14 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
     }
 
     public Peticion sendPeticion (String nick, CreatePeticionDTO createPeticionDto, UserEntity user){
-        Optional<UserEntity> usuario= userEntityRepository.findByNick(nick);
-        if(usuario.isPresent()){
+        UserEntity usuario= userEntityRepository.findByNick(nick);
+        if(usuario!= null){
 
             Peticion peticion = Peticion.builder()
                     .peticion(createPeticionDto.getTexto() + user.getNick())
-                    .destino(usuario.get())
+                    .destino(usuario)
                     .build();
-            usuario.get().addPeticion(peticion);
+            usuario.addPeticion(peticion);
             peticionRepository.save(peticion);
             return peticion;
         }else {

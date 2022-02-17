@@ -27,4 +27,14 @@ public interface PublicacionRepository extends JpaRepository<Publicacion,Long> {
             SELECT * FROM Publicacion p
              JOIN UserEntity u (u.id = p.user.id""",nativeQuery = true)
     List<Publicacion> findAllPostById(@Param("id") UUID id);
+
+    @EntityGraph(value = "Publicacion-UserEntity")
+    List<Publicacion> findOneByUserNick(String nick);
+
+    @Query("""
+            SELECT p FROM Publicacion p
+            WHERE p.estadoPublicacion = :estado
+            AND p.user.nick = :nick
+            """)
+    List<Publicacion> findPubli (@Param("estado") EstadoPublicacion estadoPublicacion, @Param("nick") String nick);
 }

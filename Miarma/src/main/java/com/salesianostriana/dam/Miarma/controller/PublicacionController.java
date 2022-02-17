@@ -9,6 +9,7 @@ import com.salesianostriana.dam.Miarma.repository.PublicacionRepository;
 import com.salesianostriana.dam.Miarma.services.impl.PublicacionServiceImpl;
 import com.salesianostriana.dam.Miarma.users.model.UserEntity;
 import lombok.RequiredArgsConstructor;
+import org.h2.engine.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -40,10 +41,6 @@ public class PublicacionController {
                 .body(publicacionDTO);
     }
 
-    @GetMapping("/")
-    public ResponseEntity<?> list() {
-        return ResponseEntity.ok(publicacionService.findAll());
-    }
 
 
     @GetMapping("/public")
@@ -95,9 +92,10 @@ public class PublicacionController {
         }
     }
 
-    /*
+
     @GetMapping("/")
-    public ResponseEntity<List<GetPublicacionDTO>> listAllPostByNick(@RequestParam(value = "nick") String nick){
-        return ResponseEntity.ok().body(publicacionService.PostListToGetPubli(nick));
-    }*/
+    public ResponseEntity<List<GetPublicacionDTO>> listAllPostByNick(@RequestParam(value = "nick") String nick, @AuthenticationPrincipal UserEntity u){
+        List<GetPublicacionDTO> publi = publicacionService.findAllPublicationsOfUser(nick, u);
+        return ResponseEntity.ok().body(publi);
+    }
 }
