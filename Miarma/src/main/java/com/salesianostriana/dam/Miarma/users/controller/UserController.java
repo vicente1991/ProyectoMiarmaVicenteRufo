@@ -98,13 +98,13 @@ public class UserController {
 
     @GetMapping("profile/{id}")
     public ResponseEntity<GetUserDTOFollowers> verPerfilUsuario(@PathVariable UUID id, @AuthenticationPrincipal UserEntity user){
-
         Optional<UserEntity> userEntity = userEntityRepository.findById(id);
-        if (userEntity.get().getVisibilidad().equals(UserRoles.PUBLICO) || user.getNick().equals(userEntity.get().getNick())){
+        UserEntity u= userEntityRepository.findBySeguidorContains(user);
+        if (userEntity.get().getVisibilidad().equals(UserRoles.PUBLICO) || u.getNick().equals(userEntity.get().getNick())){
             GetUserDTOFollowers getUserDtoWithSeguidores = userEntityService.verPerfilDeUsuario(id);
             return ResponseEntity.ok().body(getUserDtoWithSeguidores);
         }else {
-            throw new NoSuchElementException();
+            throw new UsuarioException("No existe ese id de usuario o su visibilidad es privada");
         }
 
     }
