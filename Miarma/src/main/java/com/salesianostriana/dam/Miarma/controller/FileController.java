@@ -23,7 +23,7 @@ public class FileController {
     @PostMapping("/upload")
     public ResponseEntity<?> upload(@RequestPart("file") MultipartFile file) throws Exception {
 
-        String nombre = storageService.storeAvatar(file);
+        String nombre = storageService.storePublication(file);
 
         String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/download/")

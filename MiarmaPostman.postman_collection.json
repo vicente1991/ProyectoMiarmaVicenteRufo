@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "31495896-7112-4dec-901e-e8b6c99d13d7",
+		"_postman_id": "f4f6d91e-9e6c-466f-a57b-bbdc65b1f6fa",
 		"name": "MiarmaPostman",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -240,7 +240,7 @@
 									"key": "editPost",
 									"contentType": "application/json",
 									"type": "file",
-									"src": "/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/Json/publi.json"
+									"src": "/C:/Users/usuario/Desktop/ProyectoMiarmaVicenteRufo/Json/editPubli.json"
 								}
 							]
 						},
@@ -314,6 +314,72 @@
 							"path": [
 								"post",
 								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener publi por id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/post/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"post",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener publicaciones por nick",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/post/?nick=Luismi",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"post",
+								""
+							],
+							"query": [
+								{
+									"key": "nick",
+									"value": "Luismi"
+								}
 							]
 						}
 					},

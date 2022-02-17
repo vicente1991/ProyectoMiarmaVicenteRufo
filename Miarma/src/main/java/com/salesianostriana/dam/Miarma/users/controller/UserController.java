@@ -3,6 +3,7 @@ package com.salesianostriana.dam.Miarma.users.controller;
 import com.salesianostriana.dam.Miarma.dto.peticion.CreatePeticionDTO;
 import com.salesianostriana.dam.Miarma.dto.peticion.GetPeticionDTO;
 import com.salesianostriana.dam.Miarma.dto.peticion.PeticionConverterDTO;
+import com.salesianostriana.dam.Miarma.exception.UsuarioException;
 import com.salesianostriana.dam.Miarma.model.Peticion;
 import com.salesianostriana.dam.Miarma.services.impl.PeticionService;
 import com.salesianostriana.dam.Miarma.users.dto.CreateUserDto;
@@ -76,7 +77,7 @@ public class UserController {
     public ResponseEntity<?> acceptPeticion(@PathVariable Long id, @AuthenticationPrincipal UserEntity userEntity){
 
         if (id.equals(null)){
-            throw new NoSuchElementException();
+            throw new UsuarioException("No existe id de la peticion");
         }else {
             userEntityService.aceptarPeticion(id, userEntity);
             return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -87,7 +88,7 @@ public class UserController {
     @PostMapping("follow/decline/{id}")
     public ResponseEntity<?> declinePeticion(@PathVariable Long id){
         if (id.equals(null)){
-            throw new NoSuchElementException();
+            throw new UsuarioException("No existe id de la peticion");
         }else {
             userEntityService.rechazarPeticion(id);
             return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -99,7 +100,7 @@ public class UserController {
     public ResponseEntity<GetUserDTOFollowers> verPerfilUsuario(@PathVariable UUID id, @AuthenticationPrincipal UserEntity user){
 
         Optional<UserEntity> userEntity = userEntityRepository.findById(id);
-        if (userEntity.get().getVisibilidad().equals(UserRoles.PUBLICO) || userEntity.get().getSeguidor().contains(user)){
+        if (userEntity.get().getVisibilidad().equals(UserRoles.PUBLICO) || user.getNick().equals(userEntity.get().getNick())){
             GetUserDTOFollowers getUserDtoWithSeguidores = userEntityService.verPerfilDeUsuario(id);
             return ResponseEntity.ok().body(getUserDtoWithSeguidores);
         }else {

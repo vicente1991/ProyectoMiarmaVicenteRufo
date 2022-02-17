@@ -4,6 +4,7 @@ package com.salesianostriana.dam.Miarma.controller;
 import com.salesianostriana.dam.Miarma.dto.publicacion.CreatePublicacionDTO;
 import com.salesianostriana.dam.Miarma.dto.publicacion.GetPublicacionDTO;
 import com.salesianostriana.dam.Miarma.dto.publicacion.PublicacionConverterDTO;
+import com.salesianostriana.dam.Miarma.exception.PublicacionException;
 import com.salesianostriana.dam.Miarma.model.Publicacion;
 import com.salesianostriana.dam.Miarma.repository.PublicacionRepository;
 import com.salesianostriana.dam.Miarma.services.impl.PublicacionServiceImpl;
@@ -85,7 +86,7 @@ public class PublicacionController {
     public ResponseEntity<GetPublicacionDTO> findOnePubli(@PathVariable Long id, @AuthenticationPrincipal UserEntity user){
         GetPublicacionDTO p= publicacionService.findOnePubli(id,user);
         if (p==null){
-            return ResponseEntity.badRequest().build();
+            throw new PublicacionException("La publicacion es privada");
         }else{
             return ResponseEntity.ok().body(p);
         }
@@ -95,6 +96,10 @@ public class PublicacionController {
     @GetMapping("/")
     public ResponseEntity<List<GetPublicacionDTO>> listAllPostByNick(@RequestParam(value = "nick") String nick, @AuthenticationPrincipal UserEntity u){
         List<GetPublicacionDTO> publi = publicacionService.findAllPublicationsOfUser(nick, u);
-        return ResponseEntity.ok().body(publi);
+        if(u==null){
+            throw new PublicacionException("El nick no existe");
+        }else{
+            return ResponseEntity.ok().body(publi);
+        }
     }
 }

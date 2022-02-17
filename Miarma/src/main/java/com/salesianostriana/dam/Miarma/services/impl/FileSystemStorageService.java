@@ -159,11 +159,11 @@ public class FileSystemStorageService implements StorageService {
             }
             else {
                 throw new FileNotFoundException(
-                        "Could not read file: " + filename);
+                        "No se ha podido leer la imagen: " + filename);
             }
         }
         catch (MalformedURLException e) {
-            throw new FileNotFoundException("Could not read file: " + filename, e);
+            throw new FileNotFoundException("No se ha podido leer la imagen: " + filename, e);
         }
     }
 
