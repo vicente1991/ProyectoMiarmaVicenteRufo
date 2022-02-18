@@ -89,6 +89,6 @@
 
 
 * ### **Extras:**
-* Este proyecto tiene añadida seguridad de uusuario y uso de tokens, a la vez que añade algunas excepciones de usuarios y publicaciones
+* Este proyecto tiene añadida seguridad de usuario y uso de tokens, a la vez que añade algunas excepciones de usuarios y publicaciones
 * Cualquier parecido o similitud con la famosa aplicación Instagram es pura casualidad o producto de tu imaginación  
 
