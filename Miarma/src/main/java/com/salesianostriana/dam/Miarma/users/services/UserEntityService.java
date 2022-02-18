@@ -2,6 +2,7 @@ package com.salesianostriana.dam.Miarma.users.services;
 
 import com.salesianostriana.dam.Miarma.dto.peticion.CreatePeticionDTO;
 import com.salesianostriana.dam.Miarma.dto.peticion.PeticionConverterDTO;
+import com.salesianostriana.dam.Miarma.exception.ListEntityNotFoundException;
 import com.salesianostriana.dam.Miarma.exception.UsuarioException;
 import com.salesianostriana.dam.Miarma.model.Peticion;
 import com.salesianostriana.dam.Miarma.repository.PeticionRepository;
@@ -42,7 +43,6 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
     private final PasswordEncoder passwordEncoder;
     private final StorageService storageService;
     private final PeticionService peticionService;
-    private final PeticionConverterDTO peticionConverterDTO;
     private final PeticionRepository peticionRepository;
     private final UserEntityRepository userEntityRepository;
     private final UserDtoConverter userDtoConverter;
@@ -90,7 +90,7 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
             return save(userEntity);
         }
         else {
-            return null;
+            throw new ListEntityNotFoundException(Peticion.class);
         }
     }
 
@@ -101,9 +101,7 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
 
     public Optional<GetUserDto> actualizarPerfil(UserEntity user, CreateUserDto u, MultipartFile file) throws Exception {
         if (file.isEmpty()){
-
             Optional<UserEntity> data = userEntityRepository.findById(user.getId());
-
             return data.map(m -> {
                 m.setNombre(u.getNombre());
                 m.setApellidos(user.getApellidos());
@@ -114,7 +112,6 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
                 userEntityRepository.save(m);
                 return userDtoConverter.UserEntityToGetUserDto(m);
             });
-
         }else{
 
             Optional<UserEntity> data = userEntityRepository.findById(user.getId());
@@ -153,9 +150,11 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
         }else{
             Peticion peticion = Peticion.builder()
                     .peticion(createPeticionDto.getTexto() + user.getNick())
+                    .origen(user)
                     .destino(usuario)
                     .build();
             usuario.addPeticion(peticion);
+            userEntityRepository.save(usuario);
             peticionRepository.save(peticion);
             return peticion;
         }
@@ -164,22 +163,23 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
     public void aceptarPeticion(Long id, UserEntity user){
 
         Optional<Peticion> peticion = peticionRepository.findById(id);
-        user.addSeguidor(peticion.get().getDestino());
+        user.addSeguidor(peticion.get().getOrigen());
+        save(user);
         peticion.get().nullearDestinatarios();
+        peticionRepository.save(peticion.get());
         peticionRepository.deleteById(id);
     }
 
     public void rechazarPeticion(Long id){
         Optional<Peticion> peticionSeguimiento = peticionRepository.findById(id);
         peticionSeguimiento.get().nullearDestinatarios();
-
         peticionRepository.save(peticionSeguimiento.get());
         peticionRepository.deleteById(id);
     }
 
     public GetUserDTOFollowers verPerfilDeUsuario (UUID id){
         Optional<UserEntity> userEntity = userEntityRepository.findById(id);
-        return userDtoConverter.UserEntityToGetUserDtoWithFollowers(userEntity);
+        return userDtoConverter.UserEntityToGetUserDtoWithSeguidores(userEntity);
     }
 
 }

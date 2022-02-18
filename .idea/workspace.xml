@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="21d9ab5d-388d-4836-ba3a-df622ed8469d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Miarma/db/basededatos.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/Miarma/db/basededatos.mv.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Miarma/uploads/ubeda_809614.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/dto/UserDtoConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/dto/UserDtoConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/services/UserEntityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/services/UserEntityService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,6 +15,19 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="main" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="253IZ2L3cfQxi5oFX4YqabjvRFG" />
