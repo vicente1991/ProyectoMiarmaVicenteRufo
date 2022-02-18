@@ -71,8 +71,8 @@
 
 * ### **El uso de la coleccion de Postman:**
 
-
-2. En el mismo proyecto tienes dos carpetas una con los ficheros de json que usaremos y otra de fotos para usar.
+1. Importa la colección de Postman que hay en el mismo proyecto.
+2. Dentro del tienes dos carpetas una con los ficheros de json que usaremos y otra de fotos para usar.
 3. Empezaremos creando y logueando usuarios. 
 4. Para registrar usuarios iremos a la peticion de Register en postman y en el Body usaremos el form-data, en las key tendremos file cuyo valor se lo daremos escogiendo el archivo en la carpeta de FotoPrueba y en el user la peticion en json de register de la carpeta JSON
 5. A la hora de loguarnos escogeremos el email y la contraseña del usuario registrado
