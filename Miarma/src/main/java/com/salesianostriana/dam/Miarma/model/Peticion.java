@@ -28,7 +28,7 @@ public class Peticion implements Serializable {
 
     @PreRemove
     public void nullearDestinatarios(){
-        destino.setSeguidor(null);
+        origen.setSeguidor(null);
     }
 
 }

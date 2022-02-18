@@ -1,0 +1,188 @@
+Index: Miarma/src/main/java/com/salesianostriana/dam/Miarma/controller/FileController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.salesianostriana.dam.Miarma.controller;\r\n\r\nimport com.salesianostriana.dam.Miarma.dto.FileResponse;\r\nimport com.salesianostriana.dam.Miarma.services.StorageService;\r\nimport com.salesianostriana.dam.Miarma.utils.MediaTypeUrlResource;\r\nimport lombok.RequiredArgsConstructor;\r\nimport org.springframework.core.io.Resource;\r\nimport org.springframework.http.HttpStatus;\r\nimport org.springframework.http.ResponseEntity;\r\nimport org.springframework.web.bind.annotation.*;\r\nimport org.springframework.web.multipart.MultipartFile;\r\nimport org.springframework.web.servlet.support.ServletUriComponentsBuilder;\r\n\r\nimport java.net.URI;\r\n\r\n@RestController\r\n@RequiredArgsConstructor\r\npublic class FileController {\r\n\r\n    private final StorageService storageService;\r\n\r\n\r\n    @PostMapping(\"/upload\")\r\n    public ResponseEntity<?> upload(@RequestPart(\"file\") MultipartFile file) throws Exception {\r\n\r\n        String nombre = storageService.storeAvatar(file);\r\n\r\n        String uri = ServletUriComponentsBuilder.fromCurrentContextPath()\r\n                .path(\"/download/\")\r\n                .path(nombre)\r\n                .toUriString();\r\n\r\n        FileResponse response = FileResponse.builder()\r\n                .name(nombre)\r\n                .size(file.getSize())\r\n                .type(file.getContentType())\r\n                .uri(uri)\r\n                .build();\r\n\r\n        return ResponseEntity.created(URI.create(uri)).body(response);\r\n\r\n    }\r\n\r\n    @GetMapping(\"/download/{filename:.+}\")\r\n    public ResponseEntity<Resource> getFile(@PathVariable String filename) {\r\n        MediaTypeUrlResource resource = (MediaTypeUrlResource) storageService.loadAsResource(filename);\r\n        return ResponseEntity.status(HttpStatus.OK)\r\n                .header(\"content-type\", resource.getType())\r\n                .body(resource);\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Miarma/src/main/java/com/salesianostriana/dam/Miarma/controller/FileController.java b/Miarma/src/main/java/com/salesianostriana/dam/Miarma/controller/FileController.java
+--- a/Miarma/src/main/java/com/salesianostriana/dam/Miarma/controller/FileController.java	
++++ b/Miarma/src/main/java/com/salesianostriana/dam/Miarma/controller/FileController.java	
+@@ -23,7 +23,7 @@
+     @PostMapping("/upload")
+     public ResponseEntity<?> upload(@RequestPart("file") MultipartFile file) throws Exception {
+ 
+-        String nombre = storageService.storeAvatar(file);
++        String nombre = storageService.storePublication(file);
+ 
+         String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                 .path("/download/")
+Index: Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/dto/UserDtoConverter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.salesianostriana.dam.Miarma.users.dto;\r\n\r\nimport com.salesianostriana.dam.Miarma.model.Publicacion;\r\nimport com.salesianostriana.dam.Miarma.users.model.UserEntity;\r\nimport org.springframework.stereotype.Component;\r\n\r\nimport java.util.Optional;\r\n\r\n@Component\r\npublic class UserDtoConverter {\r\n\r\n    public GetUserDto UserEntityToGetUserDto(UserEntity user){\r\n        return GetUserDto.builder()\r\n                .id(user.getId())\r\n                .nombre(user.getNombre())\r\n                .apellidos(user.getApellidos())\r\n                .nick(user.getNick())\r\n                .fechaNacimiento(user.getFechaNacimiento())\r\n                .visibilidad(user.getVisibilidad().name())\r\n                .email(user.getEmail())\r\n                .avatar(user.getAvatar())\r\n                .build();\r\n    }\r\n\r\n    public GetUserDTOFollowers UserEntityToGetUserDtoWithFollowers(Optional<UserEntity> user){\r\n        return GetUserDTOFollowers.builder()\r\n                .id(user.get().getId())\r\n                .nombre(user.get().getNombre())\r\n                .apellidos(user.get().getApellidos())\r\n                .nick(user.get().getNick())\r\n                .fechaNacimiento(user.get().getFechaNacimiento())\r\n                .email(user.get().getEmail())\r\n                .avatar(user.get().getAvatar())\r\n                .userRoles(user.get().getVisibilidad().name())\r\n                .seguidores(user.get().getSeguidor().stream().map(p -> p.getNick()).toList())\r\n                .peticiones(user.get().getSeguido().size())\r\n                .build();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/dto/UserDtoConverter.java b/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/dto/UserDtoConverter.java
+--- a/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/dto/UserDtoConverter.java	
++++ b/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/dto/UserDtoConverter.java	
+@@ -22,7 +22,7 @@
+                 .build();
+     }
+ 
+-    public GetUserDTOFollowers UserEntityToGetUserDtoWithFollowers(Optional<UserEntity> user){
++    public GetUserDTOFollowers UserEntityToGetUserDtoWithSeguidores(Optional<UserEntity> user){
+         return GetUserDTOFollowers.builder()
+                 .id(user.get().getId())
+                 .nombre(user.get().getNombre())
+Index: Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/services/UserEntityService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.salesianostriana.dam.Miarma.users.services;\r\n\r\nimport com.salesianostriana.dam.Miarma.dto.peticion.CreatePeticionDTO;\r\nimport com.salesianostriana.dam.Miarma.dto.peticion.PeticionConverterDTO;\r\nimport com.salesianostriana.dam.Miarma.model.Peticion;\r\nimport com.salesianostriana.dam.Miarma.repository.PeticionRepository;\r\nimport com.salesianostriana.dam.Miarma.services.StorageService;\r\nimport com.salesianostriana.dam.Miarma.services.base.BaseService;\r\nimport com.salesianostriana.dam.Miarma.services.impl.PeticionService;\r\nimport com.salesianostriana.dam.Miarma.users.dto.CreateUserDto;\r\nimport com.salesianostriana.dam.Miarma.users.dto.GetUserDTOFollowers;\r\nimport com.salesianostriana.dam.Miarma.users.dto.GetUserDto;\r\nimport com.salesianostriana.dam.Miarma.users.dto.UserDtoConverter;\r\nimport com.salesianostriana.dam.Miarma.users.model.UserEntity;\r\nimport com.salesianostriana.dam.Miarma.users.model.UserRoles;\r\nimport com.salesianostriana.dam.Miarma.users.repos.UserEntityRepository;\r\nimport lombok.RequiredArgsConstructor;\r\nimport org.springframework.security.core.userdetails.UserDetails;\r\nimport org.springframework.security.core.userdetails.UserDetailsService;\r\nimport org.springframework.security.core.userdetails.UsernameNotFoundException;\r\nimport org.springframework.security.crypto.password.PasswordEncoder;\r\nimport org.springframework.stereotype.Service;\r\nimport org.springframework.util.StringUtils;\r\nimport org.springframework.web.multipart.MultipartFile;\r\nimport org.springframework.web.servlet.support.ServletUriComponentsBuilder;\r\n\r\nimport javax.imageio.ImageIO;\r\nimport java.awt.image.BufferedImage;\r\nimport java.io.OutputStream;\r\nimport java.nio.file.Files;\r\nimport java.nio.file.Path;\r\nimport java.nio.file.Paths;\r\nimport java.util.List;\r\nimport java.util.Optional;\r\nimport java.util.UUID;\r\n\r\n@Service(\"userDetailService\")\r\n@RequiredArgsConstructor\r\npublic class UserEntityService extends BaseService<UserEntity, UUID, UserEntityRepository> implements UserDetailsService {\r\n\r\n    private final PasswordEncoder passwordEncoder;\r\n    private final StorageService storageService;\r\n    private final PeticionService peticionService;\r\n    private final PeticionConverterDTO peticionConverterDTO;\r\n    private final PeticionRepository peticionRepository;\r\n    private final UserEntityRepository userEntityRepository;\r\n    private final UserDtoConverter userDtoConverter;\r\n\r\n    @Override\r\n    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {\r\n        return this.repository.findFirstByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email + \" no encontrado\"));\r\n    }\r\n    public UserEntity loadUserById(UUID uuid) throws UsernameNotFoundException{\r\n        return this.repository.findById(uuid).orElseThrow(() -> new UsernameNotFoundException(uuid + \" no encontrado\"));\r\n    }\r\n\r\n\r\n\r\n    public UserEntity saveUser(CreateUserDto userDto, MultipartFile file) throws Exception {\r\n\r\n        String filename = storageService.storePublication(file);\r\n\r\n        String ext = StringUtils.getFilenameExtension(filename);\r\n\r\n        BufferedImage originalImage = ImageIO.read(file.getInputStream());\r\n\r\n        BufferedImage escaledImage = storageService.escaler(originalImage,128);\r\n\r\n        OutputStream outputStream = Files.newOutputStream(storageService.load(filename));\r\n\r\n        ImageIO.write(escaledImage,ext,outputStream);\r\n\r\n        String uri = ServletUriComponentsBuilder.fromCurrentContextPath()\r\n                .path(\"/download/\")\r\n                .path(filename)\r\n                .toUriString();\r\n\r\n        if (userDto.getPassword().equalsIgnoreCase(userDto.getPassword2())){\r\n            UserEntity userEntity = UserEntity.builder()\r\n                    .nick(userDto.getNick())\r\n                    .nombre(userDto.getNombre())\r\n                    .apellidos(userDto.getApellidos())\r\n                    .email(userDto.getEmail())\r\n                    .visibilidad(userDto.getVisibilidad())\r\n                    .fechaNacimiento(userDto.getFechaNacimiento())\r\n                    .avatar(uri)\r\n                    .password(passwordEncoder.encode(userDto.getPassword()))\r\n                    .build();\r\n            return save(userEntity);\r\n        }\r\n        else {\r\n            return null;\r\n        }\r\n    }\r\n\r\n    public List<Peticion> findAllPet (){\r\n\r\n        return peticionService.findAll();\r\n    }\r\n\r\n    public Optional<GetUserDto> actualizarPerfil(UserEntity user, CreateUserDto u, MultipartFile file) throws Exception {\r\n        if (file.isEmpty()){\r\n\r\n            Optional<UserEntity> data = userEntityRepository.findById(user.getId());\r\n\r\n            return data.map(m -> {\r\n                m.setNombre(u.getNombre());\r\n                m.setApellidos(user.getApellidos());\r\n                m.setNick(u.getNick());\r\n                m.setVisibilidad(u.getVisibilidad());\r\n                m.setAvatar(m.getAvatar());\r\n                m.setEmail(u.getEmail());\r\n                userEntityRepository.save(m);\r\n                return userDtoConverter.UserEntityToGetUserDto(m);\r\n            });\r\n\r\n        }else{\r\n\r\n            Optional<UserEntity> data = userEntityRepository.findById(user.getId());\r\n            String name = StringUtils.cleanPath(String.valueOf(data.get().getAvatar())).replace(\"http://localhost:8080/download/\", \"\");\r\n            Path p = storageService.load(name);\r\n            String filename = StringUtils.cleanPath(String.valueOf(p)).replace(\"http://localhost:8080/download/\", \"\");\r\n            Path pa = Paths.get(filename);\r\n            storageService.deleteFile(pa);\r\n            String avatar = storageService.storePublication(file);\r\n\r\n            String uri = ServletUriComponentsBuilder.fromCurrentContextPath()\r\n                    .path(\"/download/\")\r\n                    .path(avatar)\r\n                    .toUriString();\r\n\r\n            return data.map(m -> {\r\n                m.setNombre(u.getNombre());\r\n                m.setApellidos(user.getApellidos());\r\n                m.setNick(u.getNick());\r\n                m.setVisibilidad(u.getVisibilidad());\r\n                m.setAvatar(uri);\r\n                m.setEmail(u.getEmail());\r\n                userEntityRepository.save(m);\r\n                return userDtoConverter.UserEntityToGetUserDto(m);\r\n            });\r\n\r\n        }\r\n    }\r\n\r\n    public Peticion sendPeticion (String nick, CreatePeticionDTO createPeticionDto, UserEntity user){\r\n        UserEntity usuario= userEntityRepository.findByNick(nick);\r\n        if(usuario!= null){\r\n\r\n            Peticion peticion = Peticion.builder()\r\n                    .peticion(createPeticionDto.getTexto() + user.getNick())\r\n                    .destino(usuario)\r\n                    .build();\r\n            usuario.addPeticion(peticion);\r\n            peticionRepository.save(peticion);\r\n            return peticion;\r\n        }else {\r\n            return null;\r\n        }\r\n    }\r\n\r\n    public void aceptarPeticion(Long id, UserEntity user){\r\n\r\n        Optional<Peticion> peticion = peticionRepository.findById(id);\r\n        user.addSeguidor(peticion.get().getDestino());\r\n        peticion.get().nullearDestinatarios();\r\n        peticionRepository.deleteById(id);\r\n    }\r\n\r\n    public void rechazarPeticion(Long id){\r\n        Optional<Peticion> peticionSeguimiento = peticionRepository.findById(id);\r\n        peticionSeguimiento.get().nullearDestinatarios();\r\n\r\n        peticionRepository.save(peticionSeguimiento.get());\r\n        peticionRepository.deleteById(id);\r\n    }\r\n\r\n    public GetUserDTOFollowers verPerfilDeUsuario (UUID id){\r\n        Optional<UserEntity> userEntity = userEntityRepository.findById(id);\r\n        return userDtoConverter.UserEntityToGetUserDtoWithFollowers(userEntity);\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/services/UserEntityService.java b/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/services/UserEntityService.java
+--- a/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/services/UserEntityService.java	
++++ b/Miarma/src/main/java/com/salesianostriana/dam/Miarma/users/services/UserEntityService.java	
+@@ -41,7 +41,6 @@
+     private final PasswordEncoder passwordEncoder;
+     private final StorageService storageService;
+     private final PeticionService peticionService;
+-    private final PeticionConverterDTO peticionConverterDTO;
+     private final PeticionRepository peticionRepository;
+     private final UserEntityRepository userEntityRepository;
+     private final UserDtoConverter userDtoConverter;
+@@ -100,9 +99,7 @@
+ 
+     public Optional<GetUserDto> actualizarPerfil(UserEntity user, CreateUserDto u, MultipartFile file) throws Exception {
+         if (file.isEmpty()){
+-
+             Optional<UserEntity> data = userEntityRepository.findById(user.getId());
+-
+             return data.map(m -> {
+                 m.setNombre(u.getNombre());
+                 m.setApellidos(user.getApellidos());
+@@ -113,7 +110,6 @@
+                 userEntityRepository.save(m);
+                 return userDtoConverter.UserEntityToGetUserDto(m);
+             });
+-
+         }else{
+ 
+             Optional<UserEntity> data = userEntityRepository.findById(user.getId());
+@@ -149,13 +145,15 @@
+ 
+             Peticion peticion = Peticion.builder()
+                     .peticion(createPeticionDto.getTexto() + user.getNick())
+-                    .destino(usuario)
++                    .origen(usuario)
++                    .destino(user)
+                     .build();
+             usuario.addPeticion(peticion);
++            userEntityRepository.save(usuario);
+             peticionRepository.save(peticion);
+             return peticion;
+         }else {
+-            return null;
++            throw new Excep;
+         }
+     }
+ 
+@@ -163,21 +161,22 @@
+ 
+         Optional<Peticion> peticion = peticionRepository.findById(id);
+         user.addSeguidor(peticion.get().getDestino());
++        userEntityRepository.save(user);
+         peticion.get().nullearDestinatarios();
++        peticionRepository.save(peticion.get());
+         peticionRepository.deleteById(id);
+     }
+ 
+     public void rechazarPeticion(Long id){
+         Optional<Peticion> peticionSeguimiento = peticionRepository.findById(id);
+         peticionSeguimiento.get().nullearDestinatarios();
+-
+         peticionRepository.save(peticionSeguimiento.get());
+         peticionRepository.deleteById(id);
+     }
+ 
+     public GetUserDTOFollowers verPerfilDeUsuario (UUID id){
+         Optional<UserEntity> userEntity = userEntityRepository.findById(id);
+-        return userDtoConverter.UserEntityToGetUserDtoWithFollowers(userEntity);
++        return userDtoConverter.UserEntityToGetUserDtoWithSeguidores(userEntity);
+     }
+ 
+ }
+Index: MiarmaPostman.postman_collection.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{\r\n\t\"info\": {\r\n\t\t\"_postman_id\": \"31495896-7112-4dec-901e-e8b6c99d13d7\",\r\n\t\t\"name\": \"MiarmaPostman\",\r\n\t\t\"schema\": \"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\"\r\n\t},\r\n\t\"item\": [\r\n\t\t{\r\n\t\t\t\"name\": \"Auth\",\r\n\t\t\t\"item\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"name\": \"Register\",\r\n\t\t\t\t\t\"request\": {\r\n\t\t\t\t\t\t\"method\": \"POST\",\r\n\t\t\t\t\t\t\"header\": [],\r\n\t\t\t\t\t\t\"body\": {\r\n\t\t\t\t\t\t\t\"mode\": \"formdata\",\r\n\t\t\t\t\t\t\t\"formdata\": [\r\n\t\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\t\"key\": \"file\",\r\n\t\t\t\t\t\t\t\t\t\"contentType\": \"multipart/form-data\",\r\n\t\t\t\t\t\t\t\t\t\"type\": \"file\",\r\n\t\t\t\t\t\t\t\t\t\"src\": \"/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/FotoPrueba/ubeda.jpg\"\r\n\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\t\"key\": \"user\",\r\n\t\t\t\t\t\t\t\t\t\"contentType\": \"application/json\",\r\n\t\t\t\t\t\t\t\t\t\"type\": \"file\",\r\n\t\t\t\t\t\t\t\t\t\"src\": \"/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/Json/register.json\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t],\r\n\t\t\t\t\t\t\t\"options\": {\r\n\t\t\t\t\t\t\t\t\"raw\": {\r\n\t\t\t\t\t\t\t\t\t\"language\": \"json\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\"url\": {\r\n\t\t\t\t\t\t\t\"raw\": \"http://localhost:8080/auth/register\",\r\n\t\t\t\t\t\t\t\"protocol\": \"http\",\r\n\t\t\t\t\t\t\t\"host\": [\r\n\t\t\t\t\t\t\t\t\"localhost\"\r\n\t\t\t\t\t\t\t],\r\n\t\t\t\t\t\t\t\"port\": \"8080\",\r\n\t\t\t\t\t\t\t\"path\": [\r\n\t\t\t\t\t\t\t\t\"auth\",\r\n\t\t\t\t\t\t\t\t\"register\"\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"response\": []\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"name\": \"Login\",\r\n\t\t\t\t\t\"event\": [\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"listen\": \"test\",\r\n\t\t\t\t\t\t\t\"script\": {\r\n\t\t\t\t\t\t\t\t\"exec\": [\r\n\t\t\t\t\t\t\t\t\t\"var jsonData = JSON.parse(responseBody);\\r\",\r\n\t\t\t\t\t\t\t\t\t\"pm.collectionVariables.set(\\\"token\\\", jsonData.token);\"\r\n\t\t\t\t\t\t\t\t],\r\n\t\t\t\t\t\t\t\t\"type\": \"text/javascript\"\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t],\r\n\t\t\t\t\t\"request\": {\r\n\t\t\t\t\t\t\"method\": \"POST\",\r\n\t\t\t\t\t\t\"header\": [],\r\n\t\t\t\t\t\t\"body\": {\r\n\t\t\t\t\t\t\t\"mode\": \"raw\",\r\n\t\t\t\t\t\t\t\"raw\": \"{\\r\\n     \\\"email\\\": \\\"lmlopezmagana@mail.com\\\",\\r\\n     \\\"password\\\": \\\"1234\\\"\\r\\n}\",\r\n\t\t\t\t\t\t\t\"options\": {\r\n\t\t\t\t\t\t\t\t\"raw\": {\r\n\t\t\t\t\t\t\t\t\t\"language\": \"json\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\"url\": {\r\n\t\t\t\t\t\t\t\"raw\": \"http://localhost:8080/auth/login\",\r\n\t\t\t\t\t\t\t\"protocol\": \"http\",\r\n\t\t\t\t\t\t\t\"host\": [\r\n\t\t\t\t\t\t\t\t\"localhost\"\r\n\t\t\t\t\t\t\t],\r\n\t\t\t\t\t\t\t\"port\": \"8080\",\r\n\t\t\t\t\t\t\t\"path\": [\r\n\t\t\t\t\t\t\t\t\"auth\",\r\n\t\t\t\t\t\t\t\t\"login\"\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"response\": []\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"name\": \"Obtener datos\",\r\n\t\t\t\t\t\"request\": {\r\n\t\t\t\t\t\t\"auth\": {\r\n\t\t\t\t\t\t\t\"type\": \"bearer\",\r\n\t\t\t\t\t\t\t\"bearer\": [\r\n\t\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\t\"key\": \"token\",\r\n\t\t\t\t\t\t\t\t\t\"value\": \"{{token}}\",\r\n\t\t\t\t\t\t\t\t\t\"type\": \"string\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\"method\": \"GET\",\r\n\t\t\t\t\t\t\"header\": [],\r\n\t\t\t\t\t\t\"url\": {\r\n\t\t\t\t\t\t\t\"raw\": \"localhost:8080/me\",\r\n\t\t\t\t\t\t\t\"host\": [\r\n\t\t\t\t\t\t\t\t\"localhost\"\r\n\t\t\t\t\t\t\t],\r\n\t\t\t\t\t\t\t\"port\": \"8080\",\r\n\t\t\t\t\t\t\t\"path\": [\r\n\t\t\t\t\t\t\t\t\"me\"\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"response\": []\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"name\": \"Publicacion\",\r\n\t\t\t\"item\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"name\": \"Obtener publicacion\",\r\n\t\t\t\t\t\"protocolProfileBehavior\": {\r\n\t\t\t\t\t\t\"disableBodyPruning\": true\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"request\": {\r\n\t\t\t\t\t\t\"auth\": {\r\n\t\t\t\t\t\t\t\"type\": \"bearer\",\r\n\t\t\t\t\t\t\t\"bearer\": [\r\n\t\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\t\"key\": \"token\",\r\n\t\t\t\t\t\t\t\t\t\"value\": \"{{token}}\",\r\n\t\t\t\t\t\t\t\t\t\"type\": \"string\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\"method\": \"GET\",\r\n\t\t\t\t\t\t\"header\": [],\r\n\t\t\t\t\t\t\"body\": {\r\n\t\t\t\t\t\t\t\"mode\": \"formdata\",\r\n\t\t\t\t\t\t\t\"formdata\": [],\r\n\t\t\t\t\t\t\t\"options\": {\r\n\t\t\t\t\t\t\t\t\"raw\": {\r\n\t\t\t\t\t\t\t\t\t\"language\": \"json\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\"url\": {\r\n\t\t\t\t\t\t\t\"raw\": \"http://localhost:8080/post/public\",\r\n\t\t\t\t\t\t\t\"protocol\": \"http\",\r\n\t\t\t\t\t\t\t\"host\": [\r\n\t\t\t\t\t\t\t\t\"localhost\"\r\n\t\t\t\t\t\t\t],\r\n\t\t\t\t\t\t\t\"port\": \"8080\",\r\n\t\t\t\t\t\t\t\"path\": [\r\n\t\t\t\t\t\t\t\t\"post\",\r\n\t\t\t\t\t\t\t\t\"public\"\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"response\": []\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"name\": \"Crea publicacion\",\r\n\t\t\t\t\t\"request\": {\r\n\t\t\t\t\t\t\"auth\": {\r\n\t\t\t\t\t\t\t\"type\": \"bearer\",\r\n\t\t\t\t\t\t\t\"bearer\": [\r\n\t\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\t\"key\": \"token\",\r\n\t\t\t\t\t\t\t\t\t\"value\": \"{{token}}\",\r\n\t\t\t\t\t\t\t\t\t\"type\": \"string\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\"method\": \"POST\",\r\n\t\t\t\t\t\t\"header\": [],\r\n\t\t\t\t\t\t\"body\": {\r\n\t\t\t\t\t\t\t\"mode\": \"formdata\",\r\n\t\t\t\t\t\t\t\"formdata\": [\r\n\t\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\t\"key\": \"newPublicacion\",\r\n\t\t\t\t\t\t\t\t\t\"contentType\": \"application/json\",\r\n\t\t\t\t\t\t\t\t\t\"type\": \"file\",\r\n\t\t\t\t\t\t\t\t\t\"src\": \"/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/Json/publi.json\"\r\n\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\t\"key\": \"file\",\r\n\t\t\t\t\t\t\t\t\t\"type\": \"file\",\r\n\t\t\t\t\t\t\t\t\t\"src\": \"/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/FotoPrueba/ubeda.jpg\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\"url\": {\r\n\t\t\t\t\t\t\t\"raw\": \"http://localhost:8080/post/\",\r\n\t\t\t\t\t\t\t\"protocol\": \"http\",\r\n\t\t\t\t\t\t\t\"host\": [\r\n\t\t\t\t\t\t\t\t\"localhost\"\r\n\t\t\t\t\t\t\t],\r\n\t\t\t\t\t\t\t\"port\": \"8080\",\r\n\t\t\t\t\t\t\t\"path\": [\r\n\t\t\t\t\t\t\t\t\"post\",\r\n\t\t\t\t\t\t\t\t\"\"\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"response\": []\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"name\": \"Editar publi\",\r\n\t\t\t\t\t\"request\": {\r\n\t\t\t\t\t\t\"auth\": {\r\n\t\t\t\t\t\t\t\"type\": \"bearer\",\r\n\t\t\t\t\t\t\t\"bearer\": [\r\n\t\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\t\"key\": \"token\",\r\n\t\t\t\t\t\t\t\t\t\"value\": \"{{token}}\",\r\n\t\t\t\t\t\t\t\t\t\"type\": \"string\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\"method\": \"PUT\",\r\n\t\t\t\t\t\t\"header\": [],\r\n\t\t\t\t\t\t\"body\": {\r\n\t\t\t\t\t\t\t\"mode\": \"formdata\",\r\n\t\t\t\t\t\t\t\"formdata\": [\r\n\t\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\t\"key\": \"file\",\r\n\t\t\t\t\t\t\t\t\t\"contentType\": \"multipart/form-data\",\r\n\t\t\t\t\t\t\t\t\t\"type\": \"file\",\r\n\t\t\t\t\t\t\t\t\t\"src\": []\r\n\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\t\"key\": \"editPost\",\r\n\t\t\t\t\t\t\t\t\t\"contentType\": \"application/json\",\r\n\t\t\t\t\t\t\t\t\t\"type\": \"file\",\r\n\t\t\t\t\t\t\t\t\t\"src\": \"/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/Json/publi.json\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\"url\": {\r\n\t\t\t\t\t\t\t\"raw\": \"http://localhost:8080/post/1\",\r\n\t\t\t\t\t\t\t\"protocol\": \"http\",\r\n\t\t\t\t\t\t\t\"host\": [\r\n\t\t\t\t\t\t\t\t\"localhost\"\r\n\t\t\t\t\t\t\t],\r\n\t\t\t\t\t\t\t\"port\": \"8080\",\r\n\t\t\t\t\t\t\t\"path\": [\r\n\t\t\t\t\t\t\t\t\"post\",\r\n\t\t\t\t\t\t\t\t\"1\"\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"response\": []\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"name\": \"Borrar publi\",\r\n\t\t\t\t\t\"request\": {\r\n\t\t\t\t\t\t\"auth\": {\r\n\t\t\t\t\t\t\t\"type\": \"bearer\",\r\n\t\t\t\t\t\t\t\"bearer\": [\r\n\t\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\t\"key\": \"token\",\r\n\t\t\t\t\t\t\t\t\t\"value\": \"{{token}}\",\r\n\t\t\t\t\t\t\t\t\t\"type\": \"string\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\"method\": \"DELETE\",\r\n\t\t\t\t\t\t\"header\": [],\r\n\t\t\t\t\t\t\"url\": {\r\n\t\t\t\t\t\t\t\"raw\": \"http://localhost:8080/post/3\",\r\n\t\t\t\t\t\t\t\"protocol\": \"http\",\r\n\t\t\t\t\t\t\t\"host\": [\r\n\t\t\t\t\t\t\t\t\"localhost\"\r\n\t\t\t\t\t\t\t],\r\n\t\t\t\t\t\t\t\"port\": \"8080\",\r\n\t\t\t\t\t\t\t\"path\": [\r\n\t\t\t\t\t\t\t\t\"post\",\r\n\t\t\t\t\t\t\t\t\"3\"\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"response\": []\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"name\": \"Publicaciones Usuarios log\",\r\n\t\t\t\t\t\"request\": {\r\n\t\t\t\t\t\t\"auth\": {\r\n\t\t\t\t\t\t\t\"type\": \"bearer\",\r\n\t\t\t\t\t\t\t\"bearer\": [\r\n\t\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\t\"key\": \"token\",\r\n\t\t\t\t\t\t\t\t\t\"value\": \"{{token}}\",\r\n\t\t\t\t\t\t\t\t\t\"type\": \"string\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\"method\": \"GET\",\r\n\t\t\t\t\t\t\"header\": [],\r\n\t\t\t\t\t\t\"url\": {\r\n\t\t\t\t\t\t\t\"raw\": \"http://localhost:8080/post/me\",\r\n\t\t\t\t\t\t\t\"protocol\": \"http\",\r\n\t\t\t\t\t\t\t\"host\": [\r\n\t\t\t\t\t\t\t\t\"localhost\"\r\n\t\t\t\t\t\t\t],\r\n\t\t\t\t\t\t\t\"port\": \"8080\",\r\n\t\t\t\t\t\t\t\"path\": [\r\n\t\t\t\t\t\t\t\t\"post\",\r\n\t\t\t\t\t\t\t\t\"me\"\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"response\": []\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"name\": \"Usuarios\",\r\n\t\t\t\"item\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"name\": \"Listar Peticiones\",\r\n\t\t\t\t\t\"request\": {\r\n\t\t\t\t\t\t\"auth\": {\r\n\t\t\t\t\t\t\t\"type\": \"bearer\",\r\n\t\t\t\t\t\t\t\"bearer\": [\r\n\t\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\t\"key\": \"token\",\r\n\t\t\t\t\t\t\t\t\t\"value\": \"{{token}}\",\r\n\t\t\t\t\t\t\t\t\t\"type\": \"string\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\"method\": \"GET\",\r\n\t\t\t\t\t\t\"header\": [],\r\n\t\t\t\t\t\t\"url\": {\r\n\t\t\t\t\t\t\t\"raw\": \"http://localhost:8080/follow/list\",\r\n\t\t\t\t\t\t\t\"protocol\": \"http\",\r\n\t\t\t\t\t\t\t\"host\": [\r\n\t\t\t\t\t\t\t\t\"localhost\"\r\n\t\t\t\t\t\t\t],\r\n\t\t\t\t\t\t\t\"port\": \"8080\",\r\n\t\t\t\t\t\t\t\"path\": [\r\n\t\t\t\t\t\t\t\t\"follow\",\r\n\t\t\t\t\t\t\t\t\"list\"\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"response\": []\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"name\": \"Actualizar usuario\",\r\n\t\t\t\t\t\"request\": {\r\n\t\t\t\t\t\t\"auth\": {\r\n\t\t\t\t\t\t\t\"type\": \"bearer\",\r\n\t\t\t\t\t\t\t\"bearer\": [\r\n\t\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\t\"key\": \"token\",\r\n\t\t\t\t\t\t\t\t\t\"value\": \"{{token}}\",\r\n\t\t\t\t\t\t\t\t\t\"type\": \"string\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\"method\": \"PUT\",\r\n\t\t\t\t\t\t\"header\": [],\r\n\t\t\t\t\t\t\"body\": {\r\n\t\t\t\t\t\t\t\"mode\": \"formdata\",\r\n\t\t\t\t\t\t\t\"formdata\": [\r\n\t\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\t\"key\": \"file\",\r\n\t\t\t\t\t\t\t\t\t\"contentType\": \"multipart/form-data\",\r\n\t\t\t\t\t\t\t\t\t\"type\": \"file\",\r\n\t\t\t\t\t\t\t\t\t\"src\": \"/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/FotoPrueba/ubeda.jpg\"\r\n\t\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\t\"key\": \"user\",\r\n\t\t\t\t\t\t\t\t\t\"contentType\": \"application/json\",\r\n\t\t\t\t\t\t\t\t\t\"type\": \"file\",\r\n\t\t\t\t\t\t\t\t\t\"src\": \"/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/Json/update.json\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\"url\": {\r\n\t\t\t\t\t\t\t\"raw\": \"localhost:8080/profile/me\",\r\n\t\t\t\t\t\t\t\"host\": [\r\n\t\t\t\t\t\t\t\t\"localhost\"\r\n\t\t\t\t\t\t\t],\r\n\t\t\t\t\t\t\t\"port\": \"8080\",\r\n\t\t\t\t\t\t\t\"path\": [\r\n\t\t\t\t\t\t\t\t\"profile\",\r\n\t\t\t\t\t\t\t\t\"me\"\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"response\": []\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"name\": \"Hacer follow\",\r\n\t\t\t\t\t\"request\": {\r\n\t\t\t\t\t\t\"auth\": {\r\n\t\t\t\t\t\t\t\"type\": \"bearer\",\r\n\t\t\t\t\t\t\t\"bearer\": [\r\n\t\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\t\"key\": \"token\",\r\n\t\t\t\t\t\t\t\t\t\"value\": \"{{token}}\",\r\n\t\t\t\t\t\t\t\t\t\"type\": \"string\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\"method\": \"POST\",\r\n\t\t\t\t\t\t\"header\": [],\r\n\t\t\t\t\t\t\"body\": {\r\n\t\t\t\t\t\t\t\"mode\": \"formdata\",\r\n\t\t\t\t\t\t\t\"formdata\": [\r\n\t\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\t\"key\": \"peticion\",\r\n\t\t\t\t\t\t\t\t\t\"contentType\": \"application/json\",\r\n\t\t\t\t\t\t\t\t\t\"type\": \"file\",\r\n\t\t\t\t\t\t\t\t\t\"src\": \"/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/Json/peticion.json\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\"url\": {\r\n\t\t\t\t\t\t\t\"raw\": \"http://localhost:8080/follow/V\",\r\n\t\t\t\t\t\t\t\"protocol\": \"http\",\r\n\t\t\t\t\t\t\t\"host\": [\r\n\t\t\t\t\t\t\t\t\"localhost\"\r\n\t\t\t\t\t\t\t],\r\n\t\t\t\t\t\t\t\"port\": \"8080\",\r\n\t\t\t\t\t\t\t\"path\": [\r\n\t\t\t\t\t\t\t\t\"follow\",\r\n\t\t\t\t\t\t\t\t\"V\"\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"response\": []\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"name\": \"Ver Perfil\",\r\n\t\t\t\t\t\"request\": {\r\n\t\t\t\t\t\t\"auth\": {\r\n\t\t\t\t\t\t\t\"type\": \"bearer\",\r\n\t\t\t\t\t\t\t\"bearer\": [\r\n\t\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\t\"key\": \"token\",\r\n\t\t\t\t\t\t\t\t\t\"value\": \"{{token}}\",\r\n\t\t\t\t\t\t\t\t\t\"type\": \"string\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\"method\": \"GET\",\r\n\t\t\t\t\t\t\"header\": [],\r\n\t\t\t\t\t\t\"url\": {\r\n\t\t\t\t\t\t\t\"raw\": \"http://localhost:8080/profile/ac1b460d-7f01-1aca-817f-018b14670001\",\r\n\t\t\t\t\t\t\t\"protocol\": \"http\",\r\n\t\t\t\t\t\t\t\"host\": [\r\n\t\t\t\t\t\t\t\t\"localhost\"\r\n\t\t\t\t\t\t\t],\r\n\t\t\t\t\t\t\t\"port\": \"8080\",\r\n\t\t\t\t\t\t\t\"path\": [\r\n\t\t\t\t\t\t\t\t\"profile\",\r\n\t\t\t\t\t\t\t\t\"ac1b460d-7f01-1aca-817f-018b14670001\"\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"response\": []\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"name\": \"Aceptar peticion\",\r\n\t\t\t\t\t\"request\": {\r\n\t\t\t\t\t\t\"auth\": {\r\n\t\t\t\t\t\t\t\"type\": \"bearer\",\r\n\t\t\t\t\t\t\t\"bearer\": [\r\n\t\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\t\"key\": \"token\",\r\n\t\t\t\t\t\t\t\t\t\"value\": \"{{token}}\",\r\n\t\t\t\t\t\t\t\t\t\"type\": \"string\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\"method\": \"POST\",\r\n\t\t\t\t\t\t\"header\": [],\r\n\t\t\t\t\t\t\"url\": {\r\n\t\t\t\t\t\t\t\"raw\": \"localhost:8080/follow/accept/4\",\r\n\t\t\t\t\t\t\t\"host\": [\r\n\t\t\t\t\t\t\t\t\"localhost\"\r\n\t\t\t\t\t\t\t],\r\n\t\t\t\t\t\t\t\"port\": \"8080\",\r\n\t\t\t\t\t\t\t\"path\": [\r\n\t\t\t\t\t\t\t\t\"follow\",\r\n\t\t\t\t\t\t\t\t\"accept\",\r\n\t\t\t\t\t\t\t\t\"4\"\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"response\": []\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"name\": \"Rechazar peticion\",\r\n\t\t\t\t\t\"request\": {\r\n\t\t\t\t\t\t\"auth\": {\r\n\t\t\t\t\t\t\t\"type\": \"bearer\",\r\n\t\t\t\t\t\t\t\"bearer\": [\r\n\t\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\t\"key\": \"token\",\r\n\t\t\t\t\t\t\t\t\t\"value\": \"{{token}}\",\r\n\t\t\t\t\t\t\t\t\t\"type\": \"string\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\"method\": \"POST\",\r\n\t\t\t\t\t\t\"header\": [],\r\n\t\t\t\t\t\t\"url\": {\r\n\t\t\t\t\t\t\t\"raw\": \"localhost:8080/follow/decline/5\",\r\n\t\t\t\t\t\t\t\"host\": [\r\n\t\t\t\t\t\t\t\t\"localhost\"\r\n\t\t\t\t\t\t\t],\r\n\t\t\t\t\t\t\t\"port\": \"8080\",\r\n\t\t\t\t\t\t\t\"path\": [\r\n\t\t\t\t\t\t\t\t\"follow\",\r\n\t\t\t\t\t\t\t\t\"decline\",\r\n\t\t\t\t\t\t\t\t\"5\"\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"response\": []\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t],\r\n\t\"variable\": [\r\n\t\t{\r\n\t\t\t\"key\": \"token\",\r\n\t\t\t\"value\": \"\"\r\n\t\t}\r\n\t]\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/MiarmaPostman.postman_collection.json b/MiarmaPostman.postman_collection.json
+--- a/MiarmaPostman.postman_collection.json	
++++ b/MiarmaPostman.postman_collection.json	
+@@ -1,6 +1,6 @@
+ {
+ 	"info": {
+-		"_postman_id": "31495896-7112-4dec-901e-e8b6c99d13d7",
++		"_postman_id": "874d37dd-52a2-47f0-a35e-563448ee9c1d",
+ 		"name": "MiarmaPostman",
+ 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+ 	},
+@@ -317,6 +317,52 @@
+ 							]
+ 						}
+ 					},
++					"response": []
++				},
++				{
++					"name": "Buscar publicacion por nick",
++					"request": {
++						"method": "GET",
++						"header": [],
++						"url": {
++							"raw": "http://localhost:8080/post/?nick=Luismi",
++							"protocol": "http",
++							"host": [
++								"localhost"
++							],
++							"port": "8080",
++							"path": [
++								"post",
++								""
++							],
++							"query": [
++								{
++									"key": "nick",
++									"value": "Luismi"
++								}
++							]
++						}
++					},
++					"response": []
++				},
++				{
++					"name": "Buscar publicacion por id",
++					"request": {
++						"method": "GET",
++						"header": [],
++						"url": {
++							"raw": "http://localhost:8080/post/",
++							"protocol": "http",
++							"host": [
++								"localhost"
++							],
++							"port": "8080",
++							"path": [
++								"post",
++								""
++							]
++						}
++					},
+ 					"response": []
+ 				}
+ 			]
