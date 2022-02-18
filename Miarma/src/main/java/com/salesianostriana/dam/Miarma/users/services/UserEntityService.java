@@ -145,8 +145,6 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
         UserEntity usuario= userEntityRepository.findByNick(nick);
         if(usuario==null || usuario.getNick().equals(user.getNick())){
             throw new UsuarioException("No puedes enviarte peticiones a ti mismo");
-        }else if(usuario.getSeguidor().contains(user.getNick())){
-            throw new UsuarioException("Ya sigues a ese usuario");
         }else{
             Peticion peticion = Peticion.builder()
                     .peticion(createPeticionDto.getTexto() + user.getNick())
