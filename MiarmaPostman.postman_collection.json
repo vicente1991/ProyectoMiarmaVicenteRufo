@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "874d37dd-52a2-47f0-a35e-563448ee9c1d",
+		"_postman_id": "359f733e-b6b5-4438-af49-42d4cb23bd81",
 		"name": "MiarmaPostman",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -20,13 +20,13 @@
 									"key": "file",
 									"contentType": "multipart/form-data",
 									"type": "file",
-									"src": "/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/FotoPrueba/ubeda.jpg"
+									"src": []
 								},
 								{
 									"key": "user",
 									"contentType": "application/json",
 									"type": "file",
-									"src": "/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/Json/register.json"
+									"src": []
 								}
 							],
 							"options": {
@@ -188,12 +188,12 @@
 									"key": "newPublicacion",
 									"contentType": "application/json",
 									"type": "file",
-									"src": "/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/Json/publi.json"
+									"src": []
 								},
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/FotoPrueba/ubeda.jpg"
+									"src": []
 								}
 							]
 						},
@@ -240,7 +240,7 @@
 									"key": "editPost",
 									"contentType": "application/json",
 									"type": "file",
-									"src": "/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/Json/publi.json"
+									"src": []
 								}
 							]
 						},
@@ -422,13 +422,13 @@
 									"key": "file",
 									"contentType": "multipart/form-data",
 									"type": "file",
-									"src": "/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/FotoPrueba/ubeda.jpg"
+									"src": []
 								},
 								{
 									"key": "user",
 									"contentType": "application/json",
 									"type": "file",
-									"src": "/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/Json/update.json"
+									"src": []
 								}
 							]
 						},
@@ -468,7 +468,7 @@
 									"key": "peticion",
 									"contentType": "application/json",
 									"type": "file",
-									"src": "/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/Json/peticion.json"
+									"src": []
 								}
 							]
 						},
