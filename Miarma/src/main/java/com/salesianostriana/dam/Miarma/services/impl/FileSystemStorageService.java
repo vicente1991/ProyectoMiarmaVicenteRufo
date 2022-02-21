@@ -58,12 +58,6 @@ public class FileSystemStorageService implements StorageService {
 
 
 
-    public BufferedImage escalar(BufferedImage origonalImage, int targetWidth) throws  Exception{
-        return Scalr.resize(origonalImage,targetWidth);
-    }
-
-
-
     @Override
     public String storeOriginal(MultipartFile file) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
@@ -100,23 +94,14 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public String storePublication(MultipartFile file) throws Exception {String filename = StringUtils.cleanPath(file.getOriginalFilename());
+    public String storePublication(MultipartFile file) throws Exception {
+        String filename = StringUtils.cleanPath(file.getOriginalFilename());
         String newFilename = "";
         try {
             if (file.isEmpty())
                 throw new StorageException("El fichero subido está vacío");
 
-            newFilename = filename;
-            while(Files.exists(rootLocation.resolve(newFilename))) {
-                String extension = StringUtils.getFilenameExtension(newFilename);
-                String name = newFilename.replace("."+extension,"");
-
-                String suffix = Long.toString(System.currentTimeMillis());
-                suffix = suffix.substring(suffix.length()-6);
-
-                newFilename = name + "_" + suffix + "." + extension;
-
-            }
+            newFilename = calculateNewFilename(filename);
 
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, rootLocation.resolve(newFilename),
@@ -128,6 +113,39 @@ public class FileSystemStorageService implements StorageService {
         }
         return newFilename;
 
+    }
+
+    @Override
+    public String store(byte[] file, String filename, String contentype) {
+
+        String newFilename= StringUtils.cleanPath(filename);
+        if(file.length==0)
+            throw new StorageException("El fichero esta vacio");
+
+        newFilename= calculateNewFilename(newFilename);
+
+        try{
+            Files.write(rootLocation.resolve(newFilename),file);
+        }catch (IOException ex){
+            throw new StorageException("Error en el almacenamiento del fichero: " + newFilename, ex);
+
+        }
+        return null;
+    }
+
+    private String calculateNewFilename(String filename){
+        String newFilename= filename;
+        while(Files.exists(rootLocation.resolve(newFilename))) {
+            String extension = StringUtils.getFilenameExtension(newFilename);
+            String name = newFilename.replace("."+extension,"");
+
+            String suffix = Long.toString(System.currentTimeMillis());
+            suffix = suffix.substring(suffix.length()-6);
+
+            newFilename = name + "_" + suffix + "." + extension;
+
+        }
+        return filename;
     }
 
 

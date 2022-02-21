@@ -8,13 +8,15 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
-public interface StorageService {
+public interface StorageService{
 
     void init();
 
     String storeOriginal(MultipartFile file);
 
     String storePublication(MultipartFile file) throws  Exception;
+
+    String store(byte[] file,String filename,String contentype);
 
     Stream<Path> loadAll();
 
