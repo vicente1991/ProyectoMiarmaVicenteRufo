@@ -15,18 +15,20 @@ public class ScalerImageScaler implements ImageScaler{
     @Override
     public byte[] scale(byte[] image, int width, String type) {
 
-        String outputType= (type.toLowerCase().equalsIgnoreCase("jpeg") ||
+        String outputType = (type.toLowerCase().equalsIgnoreCase("jpg") ||
                 type.toLowerCase().equalsIgnoreCase("png") ||
-                type.toLowerCase().equalsIgnoreCase("gif")) ? type
-        try(InputStream inputStream= new ByteArrayInputStream(image);
-            ByteArrayOutputStream outputStream= new ByteArrayOutputStream()){
+                type.toLowerCase().equalsIgnoreCase("gif")) ? type : DEFAULT_TYPE;
 
-            BufferedImage original= ImageIO.read(inputStream);
-            BufferedImage scaled= scale(original,width);
-            ImageIO.write(scaled,outputType,outputStream);
+
+        try (InputStream inputStream = new ByteArrayInputStream(image);
+             ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+
+            BufferedImage original = ImageIO.read(inputStream);
+            BufferedImage scaled = scale(original, width);
+            ImageIO.write(scaled, outputType, outputStream);
             return outputStream.toByteArray();
-        }catch (IOException ex){
-
+        } catch (IOException ex) {
+            throw new ImageProcessException("Error al escalar la imagen", ex);
         }
 
     }
@@ -42,15 +44,13 @@ public class ScalerImageScaler implements ImageScaler{
     }
 
     @Override
-    public BufferedImage scale(BufferedImage bufferedImage, int width) {
-
-        try{
-            return  Scalr.resize(bufferedImage,width);
-
-        }catch (ImagingOpException ex){
-            throw new ImageProcessException("Error al escalar la imagen",ex);
-        }catch (IllegalArgumentException ex){
-            throw new ImageProcessException("Error al escalar la imagen",ex);
+    public BufferedImage scale(BufferedImage image, int width){
+        try {
+            return Scalr.resize(image, width);
+        } catch (IllegalArgumentException ex) {
+            throw new ImageProcessException("Error al escalar la imagen", ex);
+        } catch (ImagingOpException ex) {
+            throw new ImageProcessException("Error al escalar la imagen", ex);
         }
     }
 }

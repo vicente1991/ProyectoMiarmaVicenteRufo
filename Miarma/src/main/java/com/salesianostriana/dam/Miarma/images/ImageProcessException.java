@@ -2,9 +2,8 @@ package com.salesianostriana.dam.Miarma.images;
 
 import java.awt.image.ImagingOpException;
 
-public class ImageProcessException extends Throwable {
-    public ImageProcessException(String error_al_escalar_la_imagen, ImagingOpException ex) {
-
-
+public class ImageProcessException extends RuntimeException {
+    public ImageProcessException(String mensaje, Exception ex) {
+        super(mensaje, ex);
     }
 }
