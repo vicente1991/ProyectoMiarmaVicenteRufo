@@ -84,7 +84,7 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
                     .nombre(userDto.getNombre())
                     .apellidos(userDto.getApellidos())
                     .email(userDto.getEmail())
-                    .visibilidad(userDto.getVisibilidad())
+                    .visibilidad(userDto.getVisibilidadUsuario())
                     .fechaNacimiento(userDto.getFechaNacimiento())
                     .avatar(uri)
                     .password(passwordEncoder.encode(userDto.getPassword()))
@@ -108,7 +108,7 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
                 m.setNombre(u.getNombre());
                 m.setApellidos(user.getApellidos());
                 m.setNick(u.getNick());
-                m.setVisibilidad(u.getVisibilidad());
+                m.setVisibilidad(u.getVisibilidadUsuario());
                 m.setAvatar(m.getAvatar());
                 m.setEmail(u.getEmail());
                 userEntityRepository.save(m);
@@ -133,7 +133,7 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
                 m.setNombre(u.getNombre());
                 m.setApellidos(user.getApellidos());
                 m.setNick(u.getNick());
-                m.setVisibilidad(u.getVisibilidad());
+                m.setVisibilidad(u.getVisibilidadUsuario());
                 m.setAvatar(uri);
                 m.setEmail(u.getEmail());
                 userEntityRepository.save(m);

@@ -23,5 +23,5 @@ public class GetUserDto {
     private LocalDate fechaNacimiento;
     private String email;
     private String avatar;
-    private String visibilidadUusario;
+    private String visibilidadUsuario;
 }

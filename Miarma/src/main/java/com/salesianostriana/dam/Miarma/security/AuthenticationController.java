@@ -61,7 +61,7 @@ public class AuthenticationController {
                 .nombre(user.getNombre())
                 .email(user.getEmail())
                 .avatar(user.getAvatar())
-                .visibilidad(user.getVisibilidad().name())
+                .visibilidadUsuario(user.getVisibilidad().name())
                 .build();
     }
 
