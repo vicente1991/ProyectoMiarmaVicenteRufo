@@ -4,7 +4,7 @@
     "nick": "V",
     "email": "blabla@mail.com",
     "fechaNacimiento": "1991-02-26",
-    "visibilidad": "PUBLICO",
+    "visibilidadUsario": "PUBLICO",
     "avatar":"",
     "password": "1234",
     "password2": "1234"

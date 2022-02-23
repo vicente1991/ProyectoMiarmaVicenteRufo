@@ -23,10 +23,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,6 +41,12 @@ public class PublicacionServiceImpl implements PublicacionService {
     public Publicacion create(CreatePublicacionDTO createPublicacionDTO, MultipartFile file, UserEntity user) throws Exception {
         String filename= storageService.storePublication(file);
 
+        List<String> videoExtension = Arrays.asList("webm","mkv","flv","vob","ogv","ogg",
+                "rrc","gifv","mng","mov","avi","qt","wmv","yuv","rm","asf","amv","mp4","m4p","m4v","mpg","mp2","mpeg","mpe",
+                "mpv","m4v","svi","3gp","3gpp","3g2","mxf","roq","nsv","flv","f4v","f4p","f4a","f4b","mod");
+
+
+        String extension = StringUtils.getFilenameExtension(filename);
         String uri= ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/download/")
                 .path(filename)

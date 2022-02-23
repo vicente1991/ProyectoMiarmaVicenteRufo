@@ -3,6 +3,8 @@ package com.salesianostriana.dam.Miarma.users.services;
 import com.salesianostriana.dam.Miarma.dto.peticion.CreatePeticionDTO;
 import com.salesianostriana.dam.Miarma.dto.peticion.PeticionConverterDTO;
 import com.salesianostriana.dam.Miarma.exception.ListEntityNotFoundException;
+import com.salesianostriana.dam.Miarma.exception.SingleEntityNotFoundException;
+import com.salesianostriana.dam.Miarma.exception.SingleEntityNotFoundExceptionUUID;
 import com.salesianostriana.dam.Miarma.exception.UsuarioException;
 import com.salesianostriana.dam.Miarma.model.Peticion;
 import com.salesianostriana.dam.Miarma.repository.PeticionRepository;
@@ -161,6 +163,10 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
     public void aceptarPeticion(Long id, UserEntity user){
 
         Optional<Peticion> peticion = peticionRepository.findById(id);
+
+        if(peticion.isEmpty()){
+            throw new SingleEntityNotFoundException(id.toString(), Peticion.class);
+        }
         user.addSeguidor(peticion.get().getOrigen());
         save(user);
         peticion.get().nullearDestinatarios();
@@ -170,6 +176,10 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
 
     public void rechazarPeticion(Long id){
         Optional<Peticion> peticionSeguimiento = peticionRepository.findById(id);
+
+        if(peticionSeguimiento.isEmpty()){
+            throw new SingleEntityNotFoundException(id.toString(), Peticion.class);
+        }
         peticionSeguimiento.get().nullearDestinatarios();
         peticionRepository.save(peticionSeguimiento.get());
         peticionRepository.deleteById(id);
@@ -177,7 +187,13 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
 
     public GetUserDTOFollowers verPerfilDeUsuario (UUID id){
         Optional<UserEntity> userEntity = userEntityRepository.findById(id);
-        return userDtoConverter.UserEntityToGetUserDtoWithSeguidores(userEntity);
+
+        if(!userEntity.isPresent()){
+            throw new SingleEntityNotFoundExceptionUUID(id,UserEntity.class);
+        }else{
+            return userDtoConverter.UserEntityToGetUserDtoWithSeguidores(userEntity);
+
+        }
     }
 
 }

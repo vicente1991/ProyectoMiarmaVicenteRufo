@@ -2,7 +2,6 @@ package com.salesianostriana.dam.Miarma.services;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -25,6 +24,7 @@ public interface StorageService{
     Resource loadAsResource(String filename);
 
     void deleteFile(Path filename)throws Exception;
+
 
     void deleteAll();
 

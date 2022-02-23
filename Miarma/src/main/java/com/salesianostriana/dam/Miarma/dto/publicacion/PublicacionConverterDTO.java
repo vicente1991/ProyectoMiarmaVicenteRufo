@@ -31,6 +31,20 @@ public class PublicacionConverterDTO {
                 .build();
     }
 
+    public GetPublicacionDTO createPublicacionDtoToPublicacion2(Publicacion p){
+
+        return GetPublicacionDTO.builder()
+                .id(p.getId())
+                .titulo(p.getTitulo())
+                .texto(p.getTexto())
+                .file(p.getImagen())
+                .fechaPublicacion(LocalDate.now())
+                .visibilidad(p.getEstadoPublicacion())
+                .user(userDtoConverter.UserEntityToGetUserDto(p.getUser()))
+                .build();
+
+    }
+
 
     public GetPublicacionDTO PublicacionToGetPublicacionDto(Publicacion p){
         return GetPublicacionDTO.builder()
