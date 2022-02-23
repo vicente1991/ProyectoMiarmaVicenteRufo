@@ -4,7 +4,9 @@ package com.salesianostriana.dam.Miarma.controller;
 import com.salesianostriana.dam.Miarma.dto.publicacion.CreatePublicacionDTO;
 import com.salesianostriana.dam.Miarma.dto.publicacion.GetPublicacionDTO;
 import com.salesianostriana.dam.Miarma.dto.publicacion.PublicacionConverterDTO;
+import com.salesianostriana.dam.Miarma.exception.ListEntityNotFoundException;
 import com.salesianostriana.dam.Miarma.exception.PublicacionException;
+import com.salesianostriana.dam.Miarma.exception.SingleEntityNotFoundException;
 import com.salesianostriana.dam.Miarma.model.Publicacion;
 import com.salesianostriana.dam.Miarma.repository.PublicacionRepository;
 import com.salesianostriana.dam.Miarma.services.impl.PublicacionServiceImpl;
@@ -47,7 +49,7 @@ public class PublicacionController {
     public ResponseEntity<List<GetPublicacionDTO>> findAllPublicaciones(){
 
         if (publicacionService.findAllPublicacionesPublic().isEmpty()) {
-            return ResponseEntity.notFound().build();
+            throw new ListEntityNotFoundException(Publicacion.class);
         } else {
             List<GetPublicacionDTO> list = publicacionService.findAllPublicacionesPublic().stream()
                     .map(dto::PublicacionToGetPublicacionDto)
@@ -58,9 +60,12 @@ public class PublicacionController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Optional<GetPublicacionDTO>> updatePublicacion(@PathVariable Long id, @RequestPart("editPost") CreatePublicacionDTO createPublicacionDto, @RequestPart("file") MultipartFile file) throws Exception {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(publicacionService.actualizarPubli(id, createPublicacionDto, file));
-
+        if(id.equals(null)){
+            throw new SingleEntityNotFoundException(id.toString(), Publicacion.class);
+        }else {
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(publicacionService.actualizarPubli(id, createPublicacionDto, file));
+        }
     }
 
     @DeleteMapping("/{id}")
@@ -78,6 +83,8 @@ public class PublicacionController {
 
     @GetMapping("/me")
     public ResponseEntity<List<GetPublicacionDTO>> findAllPubliLog(@AuthenticationPrincipal UserEntity user){
+        List<GetPublicacionDTO> post= publicacionService.findAllPubliLog(user);
+
         return ResponseEntity.ok().body(publicacionService.PostListGraph(user));
     }
 
@@ -95,7 +102,7 @@ public class PublicacionController {
 
     @GetMapping("/")
     public ResponseEntity<List<GetPublicacionDTO>> listAllPostByNick(@RequestParam(value = "nick") String nick, @AuthenticationPrincipal UserEntity u){
-        List<GetPublicacionDTO> publi = publicacionService.findAllPublicationsOfUser(nick, u);
+        List<GetPublicacionDTO> publi = publicacionService.findAllPublicationsOfUser(nick,u);
         if(u==null){
             throw new PublicacionException("El nick no existe");
         }else{

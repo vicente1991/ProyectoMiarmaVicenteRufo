@@ -8,9 +8,11 @@ import com.salesianostriana.dam.Miarma.model.Publicacion;
 import com.salesianostriana.dam.Miarma.repository.PublicacionRepository;
 import com.salesianostriana.dam.Miarma.services.PublicacionService;
 import com.salesianostriana.dam.Miarma.services.StorageService;
+import com.salesianostriana.dam.Miarma.users.dto.UserDtoConverter;
 import com.salesianostriana.dam.Miarma.users.model.UserEntity;
 import com.salesianostriana.dam.Miarma.users.repos.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +37,7 @@ public class PublicacionServiceImpl implements PublicacionService {
     private final StorageService storageService;
     private final PublicacionConverterDTO dto;
     private final UserEntityRepository userEntityRepository;
+    private final UserDtoConverter userDtoConverter;
 
 
     @Override
@@ -111,12 +114,16 @@ public class PublicacionServiceImpl implements PublicacionService {
         publicacionRepository.deleteById(id);
     }
 
+
     public List<GetPublicacionDTO> findAllPubliLog(UserEntity user){
 
         List<Publicacion> list= publicacionRepository.findByUser(user);
-        List<GetPublicacionDTO> listaDto= list.stream().map(p-> new GetPublicacionDTO(p.getId(),
-                p.getTitulo(), p.getTexto(),p.getImagen(), p.getFechaPublicacion(), p.getEstadoPublicacion(), p.getUser().getNick())).toList();
-        return listaDto;
+        List<Publicacion> listaDto= publicacionRepository.findByUserId(user.getId());
+        if(list.isEmpty() && list.isEmpty()){
+            return Collections.EMPTY_LIST;
+        }else{
+            return listaDto.stream().map(dto::PublicacionToGetPublicacionDto).collect(Collectors.toList());
+        }
     }
 
     public List<GetPublicacionDTO> PostListGraph(UserEntity user){
