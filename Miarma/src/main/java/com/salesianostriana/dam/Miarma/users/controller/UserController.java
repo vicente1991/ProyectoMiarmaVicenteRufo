@@ -6,10 +6,7 @@ import com.salesianostriana.dam.Miarma.dto.peticion.PeticionConverterDTO;
 import com.salesianostriana.dam.Miarma.exception.UsuarioException;
 import com.salesianostriana.dam.Miarma.model.Peticion;
 import com.salesianostriana.dam.Miarma.services.impl.PeticionService;
-import com.salesianostriana.dam.Miarma.users.dto.CreateUserDto;
-import com.salesianostriana.dam.Miarma.users.dto.GetUserDTOFollowers;
-import com.salesianostriana.dam.Miarma.users.dto.GetUserDto;
-import com.salesianostriana.dam.Miarma.users.dto.UserDtoConverter;
+import com.salesianostriana.dam.Miarma.users.dto.*;
 import com.salesianostriana.dam.Miarma.users.model.UserEntity;
 import com.salesianostriana.dam.Miarma.users.model.UserRoles;
 import com.salesianostriana.dam.Miarma.users.repos.UserEntityRepository;
@@ -97,14 +94,18 @@ public class UserController {
     }
 
     @GetMapping("profile/{id}")
-    public ResponseEntity<GetUserDTOFollowers> verPerfilUsuario(@PathVariable UUID id, @AuthenticationPrincipal UserEntity user){
+    public ResponseEntity<GetUserDtoPost> verPerfilDeUsuario(@PathVariable UUID id, @AuthenticationPrincipal UserEntity user){
+
         Optional<UserEntity> userEntity = userEntityRepository.findById(id);
-        UserEntity u= userEntityRepository.findBySeguidorContains(user);
-        if (userEntity.get().getVisibilidad().equals(UserRoles.PUBLICO) || u.getNick().equals(userEntity.get().getNick())){
-            GetUserDTOFollowers getUserDtoWithSeguidores = userEntityService.verPerfilDeUsuario(id);
-            return ResponseEntity.ok().body(getUserDtoWithSeguidores);
+        UserEntity user1 = userEntityRepository.findBySeguidorContains(user);
+
+        if (userEntity.get().getVisibilidad().equals(UserRoles.PUBLICO) || user1.getNick().equals(userEntity.get().getNick())){
+
+            GetUserDtoPost getUserDtoWithFollowers = userEntityService.verPerfilDeUsuario(id);
+            return ResponseEntity.ok().body(getUserDtoWithFollowers);
+
         }else {
-            throw new UsuarioException("No existe ese id de usuario o su visibilidad es privada");
+            throw new UsuarioException("El usuario(userEntity) proporcionado por nick tiene su perfil privado y el usuario(@AuthenticationPrincipal user) solicitante no forma parte de sus seguidores");
         }
 
     }

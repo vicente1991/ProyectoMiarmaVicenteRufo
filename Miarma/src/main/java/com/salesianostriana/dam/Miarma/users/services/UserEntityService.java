@@ -8,13 +8,11 @@ import com.salesianostriana.dam.Miarma.exception.SingleEntityNotFoundExceptionUU
 import com.salesianostriana.dam.Miarma.exception.UsuarioException;
 import com.salesianostriana.dam.Miarma.model.Peticion;
 import com.salesianostriana.dam.Miarma.repository.PeticionRepository;
+import com.salesianostriana.dam.Miarma.repository.PublicacionRepository;
 import com.salesianostriana.dam.Miarma.services.StorageService;
 import com.salesianostriana.dam.Miarma.services.base.BaseService;
 import com.salesianostriana.dam.Miarma.services.impl.PeticionService;
-import com.salesianostriana.dam.Miarma.users.dto.CreateUserDto;
-import com.salesianostriana.dam.Miarma.users.dto.GetUserDTOFollowers;
-import com.salesianostriana.dam.Miarma.users.dto.GetUserDto;
-import com.salesianostriana.dam.Miarma.users.dto.UserDtoConverter;
+import com.salesianostriana.dam.Miarma.users.dto.*;
 import com.salesianostriana.dam.Miarma.users.model.UserEntity;
 import com.salesianostriana.dam.Miarma.users.model.UserRoles;
 import com.salesianostriana.dam.Miarma.users.repos.UserEntityRepository;
@@ -46,6 +44,7 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
     private final StorageService storageService;
     private final PeticionService peticionService;
     private final PeticionRepository peticionRepository;
+    private final PublicacionRepository publicacionRepository;
     private final UserEntityRepository userEntityRepository;
     private final UserDtoConverter userDtoConverter;
 
@@ -185,15 +184,18 @@ public class UserEntityService extends BaseService<UserEntity, UUID, UserEntityR
         peticionRepository.deleteById(id);
     }
 
-    public GetUserDTOFollowers verPerfilDeUsuario (UUID id){
+    public GetUserDtoPost verPerfilDeUsuario(UUID id) {
+
         Optional<UserEntity> userEntity = userEntityRepository.findById(id);
 
-        if(!userEntity.isPresent()){
-            throw new SingleEntityNotFoundExceptionUUID(id,UserEntity.class);
-        }else{
-            return userDtoConverter.UserEntityToGetUserDtoWithSeguidores(userEntity);
 
+        if (!userEntity.isPresent()) {
+            throw new SingleEntityNotFoundExceptionUUID(id, UserEntity.class);
+        } else {
+            return userDtoConverter.UserEntityToGetUserDtoPosts(userEntity, publicacionRepository.findByUser(userEntity.get()));
         }
+
+
     }
 
 }
