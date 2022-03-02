@@ -39,7 +39,7 @@ public class UserController {
     private final UserEntityRepository userEntityRepository;
 
     @PostMapping("auth/register")
-    public ResponseEntity<GetUserDto> nuevoUser(@Valid @RequestParam("nombre") String nombre, @Valid @RequestParam("apellidos") String apellidos, @Valid @RequestParam("nick") String nick, @RequestParam String fechaNacimiento, @Valid @RequestParam("rol") UserRoles rol, @Valid @RequestParam("password") String password, @Valid @RequestParam("password2") String password2, @Valid @RequestParam("email") String email, @RequestPart("file")MultipartFile file) throws Exception {
+    public ResponseEntity<GetUserDto> nuevoUser(@Valid @RequestParam("nombre") String nombre, @Valid @RequestParam("apellidos") String apellidos, @Valid @RequestParam("nick") String nick, @RequestParam String fechaNacimiento, @Valid @RequestParam("rol") boolean rol, @Valid @RequestParam("password") String password, @Valid @RequestParam("password2") String password2, @Valid @RequestParam("email") String email, @RequestPart("file")MultipartFile file) throws Exception {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
         CreateUserDto createUserDto = CreateUserDto.builder()
                 .nombre(nombre)
