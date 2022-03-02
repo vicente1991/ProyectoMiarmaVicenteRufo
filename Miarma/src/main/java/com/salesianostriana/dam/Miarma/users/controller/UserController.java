@@ -18,6 +18,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -36,14 +39,24 @@ public class UserController {
     private final UserEntityRepository userEntityRepository;
 
     @PostMapping("auth/register")
-    public ResponseEntity<GetUserDto> nuevoUser(@RequestPart("user") CreateUserDto createUserDto, @RequestPart("file")MultipartFile file) throws Exception {
+    public ResponseEntity<GetUserDto> nuevoUser(@Valid @RequestParam("nombre") String nombre, @Valid @RequestParam("apellidos") String apellidos, @Valid @RequestParam("nick") String nick, @RequestParam String fechaNacimiento, @Valid @RequestParam("rol") UserRoles rol, @Valid @RequestParam("password") String password, @Valid @RequestParam("password2") String password2, @Valid @RequestParam("email") String email, @RequestPart("file")MultipartFile file) throws Exception {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+        CreateUserDto createUserDto = CreateUserDto.builder()
+                .nombre(nombre)
+                .apellidos(apellidos)
+                .nick(nick)
+                .email(email)
+                .fechaNacimiento(LocalDate.parse(fechaNacimiento, formatter))
+                .visibilidadUsuario(rol)
+                .password(password)
+                .password2(password2)
+                .build();
+
+
         UserEntity usuario = userEntityService.saveUser(createUserDto, file);
-        if (usuario == null){
-            return ResponseEntity.badRequest().build();
-        }else{
-            return ResponseEntity.status(HttpStatus.CREATED).body(userDtoConverter.UserEntityToGetUserDto(usuario));
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDtoConverter.UserEntityToGetUserDto(usuario));
         }
-    }
     @GetMapping("follow/list")
     public ResponseEntity<List<GetPeticionDTO>> listadoPeticiones(){
         if (peticionService.findAll().isEmpty()){
