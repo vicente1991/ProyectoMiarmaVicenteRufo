@@ -31,16 +31,23 @@ public class PublicacionController {
 
     private final PublicacionServiceImpl publicacionService;
     private final PublicacionConverterDTO dto;
+    private final PublicacionRepository publicacionRepository;
 
     @PostMapping("/")
-    public ResponseEntity<GetPublicacionDTO> create(@RequestPart("file") MultipartFile file,
-                                                    @RequestPart("newPublicacion") CreatePublicacionDTO newPublicacion,
-                                                    @AuthenticationPrincipal UserEntity user) throws Exception {
-        Publicacion pub = publicacionService.create(newPublicacion, file, user);
+    public ResponseEntity<GetPublicacionDTO> createPublicacion(@RequestParam("titulo") String titulo, @RequestParam("texto") String texto, @RequestParam("estadoPublicacion") boolean estadoPublicacion, @RequestPart("file")MultipartFile file, @AuthenticationPrincipal UserEntity user) throws Exception {
 
-        GetPublicacionDTO publicacionDTO = dto.PublicacionToGetPublicacionDto(pub);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(publicacionDTO);
+        CreatePublicacionDTO createPublicacionDto = CreatePublicacionDTO.builder()
+                .titulo(titulo)
+                .texto(texto)
+                .estadoPubli(estadoPublicacion)
+                .build();
+
+        publicacionService.create(createPublicacionDto, file, user);
+
+        GetPublicacionDTO publicacionDto = dto.PublicacionToGetPublicacionDto(publicacionRepository.findByTitulo(createPublicacionDto.getTitulo()));
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(publicacionDto);
+
     }
 
 

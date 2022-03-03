@@ -16,6 +16,7 @@ public interface PublicacionRepository extends JpaRepository<Publicacion,Long> {
     List<Publicacion> findByUser(UserEntity user);
 
     List<Publicacion> findByEstadoPublicacion(EstadoPublicacion estadoPublicacion);
+    Publicacion findByTitulo(String titulo);
 
     List<Publicacion> findAllByUserNick(String nick);
 

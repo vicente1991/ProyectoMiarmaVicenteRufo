@@ -20,13 +20,48 @@
 									"key": "file",
 									"contentType": "multipart/form-data",
 									"type": "file",
-									"src": []
+									"src": "/C:/Users/rufo.brvic21/Desktop/ProyectoMiarmaVicenteRufo/FotoPrueba/ubeda.jpg"
 								},
 								{
-									"key": "user",
+									"key": "nombre",
+									"value": "Vicente",
 									"contentType": "application/json",
-									"type": "file",
-									"src": []
+									"type": "text"
+								},
+								{
+									"key": "fechaNacimiento",
+									"value": "2021-01-01",
+									"type": "default"
+								},
+								{
+									"key": "apellidos",
+									"value": "rufo bru",
+									"type": "default"
+								},
+								{
+									"key": "nick",
+									"value": "VC",
+									"type": "default"
+								},
+								{
+									"key": "rol",
+									"value": "true",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "1234",
+									"type": "default"
+								},
+								{
+									"key": "password2",
+									"value": "1234",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "blabla@mail.com",
+									"type": "default"
 								}
 							],
 							"options": {

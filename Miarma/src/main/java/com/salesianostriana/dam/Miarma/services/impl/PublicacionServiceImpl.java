@@ -72,7 +72,7 @@ public class PublicacionServiceImpl implements PublicacionService {
             return data.map(m -> {
                 m.setTitulo(p.getTitulo());
                 m.setTexto(p.getTexto());
-                m.setEstadoPublicacion(p.getEstadoPubli());
+                m.setEstadoPublicacion(p.isEstadoPubli() ? EstadoPublicacion.PUBLICO : EstadoPublicacion.PRIVADO);
                 m.setFechaPublicacion(LocalDate.now());
                 m.setImagen(m.getImagen());
                 publicacionRepository.save(m);
@@ -98,7 +98,7 @@ public class PublicacionServiceImpl implements PublicacionService {
             return data.map(m -> {
                 m.setTitulo(p.getTitulo());
                 m.setTexto(p.getTexto());
-                m.setEstadoPublicacion(p.getEstadoPubli());
+                m.setEstadoPublicacion(p.isEstadoPubli() ? EstadoPublicacion.PUBLICO : EstadoPublicacion.PRIVADO);
                 m.setFechaPublicacion(LocalDate.now());
                 m.setImagen(uri);
                 publicacionRepository.save(m);

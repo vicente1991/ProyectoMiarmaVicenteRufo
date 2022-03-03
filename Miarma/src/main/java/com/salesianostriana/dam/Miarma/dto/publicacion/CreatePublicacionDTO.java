@@ -18,7 +18,7 @@ public class CreatePublicacionDTO {
 
     private String texto;
 
-    private EstadoPublicacion estadoPubli;
+    private boolean estadoPubli;
 
     @NotBlank
     private String imagen;
