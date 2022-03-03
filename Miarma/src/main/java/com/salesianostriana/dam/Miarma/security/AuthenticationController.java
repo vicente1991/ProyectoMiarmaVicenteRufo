@@ -4,7 +4,9 @@ import com.salesianostriana.dam.Miarma.security.dto.JwtUsuarioResponse;
 import com.salesianostriana.dam.Miarma.security.dto.LoginDto;
 import com.salesianostriana.dam.Miarma.security.jwt.JwtProvider;
 import com.salesianostriana.dam.Miarma.users.dto.GetUserDto;
+import com.salesianostriana.dam.Miarma.users.dto.UserDtoConverter;
 import com.salesianostriana.dam.Miarma.users.model.UserEntity;
+import com.salesianostriana.dam.Miarma.users.services.UserEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,8 @@ public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
+    private final UserDtoConverter userDtoConverter;
+    private final UserEntityService entityService;
 
     @PostMapping("/auth/login")
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
@@ -68,7 +72,7 @@ public class AuthenticationController {
 
     @GetMapping("/me")
     public ResponseEntity<?> perfil(@AuthenticationPrincipal UserEntity user) {
-        return ResponseEntity.ok(convertUserToGetUserDto(user, null));
+        return ResponseEntity.ok(entityService.verPerfilDeUsuario(user.getId()));
     }
 }
 
