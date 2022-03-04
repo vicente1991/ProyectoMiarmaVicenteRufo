@@ -52,7 +52,7 @@ public class UserDtoConverter {
                 .userRoles(user.get().getVisibilidad().name())
                 .followers(user.get().getSeguidor().stream().map(p -> p.getNick()).toList())
                 .publicaciones(lista.stream().map(p -> new GetPublicacion2(p.getId(), p.getTitulo(), p.getTexto(), p.getImagen(), p.getFechaPublicacion(), p.getEstadoPublicacion())).toList())
-                .peticiones(user.get().getPublicaciones().size())
+                //.peticiones(user.get().getPublicaciones().size())
                 .build();
     }
 }
